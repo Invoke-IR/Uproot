@@ -4,7 +4,7 @@
 <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
 	<command:details>
 		<command:name>
-            Add-Signature
+            Add-Subscription
 		</command:name>
 		<maml:description>
 			<maml:para>Creates a new WMI Event Subscription (Filter, Consumer, Binding) on a local or remote hosts.</maml:para>
@@ -13,30 +13,30 @@
 			<maml:para>(c) 2014 Invoke-IR. All rights reserved.</maml:para>
 		</maml:copyright>
 		<command:verb>Add</command:verb>
-		<command:noun>Signature</command:noun>
+		<command:noun>Subscription</command:noun>
 		<dev:version>1.0.0.0</dev:version>
 	</command:details>
 	<maml:description>
-		<maml:para>The Add-Signature cmdlet creates a new WMI Event Subscription, and sets it parameters. The cmdlet makes three seperate WMI objects, an __EventFilter, a Consumer (CommandLineEventConsumer or LogFileEventConsumer), and a __FilterToConsumerBinding.</maml:para>
+		<maml:para>The Add-Subscription cmdlet creates a new WMI Event Subscription, and sets it parameters. The cmdlet makes three seperate WMI objects, an __EventFilter, a Consumer (CommandLineEventConsumer or LogFileEventConsumer), and a __FilterToConsumerBinding.</maml:para>
 	</maml:description>
 
 <!-- Cmdlet syntax section-->
 	<command:syntax>
 		<command:syntaxItem>
-			<maml:name>Add-Signature</maml:name>
+			<maml:name>Add-Subscription</maml:name>
             <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
 				<maml:name>ComputerName</maml:name>
 				<maml:description>
 					<maml:para>Creates a New WMI Event Subscriptions running on the specified computers. The default is the local computer.</maml:para>
                     <maml:para>Type the NetBIOS name, and IP address, or a fully qulaified domain name of one or more computers.</maml:para>
-                    <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Signature as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint.</maml:para>
+                    <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Subscription as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint.</maml:para>
 				</maml:description>
 				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
 			</command:parameter>
 			<command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false">
 				<maml:name>Name</maml:name>
 				<maml:description>
-					<maml:para>Specifies the Name of the Signature (WMI Event Subscription).  The same name will be used for the Filter, Consumer, and Binding.</maml:para>
+					<maml:para>Specifies the Name of the Subscription (WMI Event Subscription).  The same name will be used for the Filter, Consumer, and Binding.</maml:para>
 				</maml:description>
 				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
 			</command:parameter>
@@ -81,7 +81,7 @@
 			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
    			 <maml:name>Force</maml:name>
     			<maml:description>
-				    <maml:para>Allows the cmdlet to overwrite a signature that already exists.</maml:para>
+				    <maml:para>Allows the cmdlet to overwrite a Subscription that already exists.</maml:para>
     			</maml:description>
                 <command:parameterValue required="false">switch</command:parameterValue>
 			</command:parameter>
@@ -95,7 +95,7 @@
 			<maml:description>
 				<maml:para>Creates a New WMI Event Subscriptions running on the specified computers. The default is the local computer.</maml:para>
                 <maml:para>Type the NetBIOS name, and IP address, or a fully qulaified domain name of one or more computers.</maml:para>
-                <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Signature as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint.</maml:para>
+                <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Subscription as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint.</maml:para>
 			</maml:description>
 			<command:parameterValue required="false" variableLength="true">string[]</command:parameterValue>			
 			<dev:type>
@@ -119,7 +119,7 @@
 		<command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false">
 			<maml:name>Name</maml:name>
 			<maml:description>
-				<maml:para>Specifies the Name of the Signature (WMI Event Subscription).  The same name will be used for the Filter, Consumer, and Binding.</maml:para>
+				<maml:para>Specifies the Name of the Subscription (WMI Event Subscription).  The same name will be used for the Filter, Consumer, and Binding.</maml:para>
 			</maml:description>
 			<command:parameterValue required="true" variableLength="true">string</command:parameterValue>
 			<dev:type>
@@ -131,7 +131,7 @@
 		<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
    			<maml:name>Force</maml:name>
     		<maml:description>
-				<maml:para>Allows the cmdlet to overwrite a signature that already exists.</maml:para>
+				<maml:para>Allows the cmdlet to overwrite a Subscription that already exists.</maml:para>
     		</maml:description>
     		<command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>  	
 			<dev:type>
@@ -212,14 +212,14 @@
 	<command:returnValues>
 		<command:returnValue>
 			<dev:type>
-				<maml:name>Uproot.Signature</maml:name>
+				<maml:name>Uproot.Subscription</maml:name>
 				<maml:uri />
 				<maml:description />
 			</dev:type>   
 			<maml:description>
 				<maml:para>
 					<!-- description  -->
-					This cmdlet generates the Uproot.Signature object that is associated with the Permanent WMI Event Signature that was added.
+					This cmdlet generates the Uproot.Subscription object that is associated with the Permanent WMI Event Subscription that was added.
 				</maml:para>
 			</maml:description> 
 		</command:returnValue>
@@ -239,11 +239,11 @@ $FileName = 'C:\Users\Uproot\Desktop\driver.txt'
 $Name = 'DRIVER_CREATION'
 $Query = "SELECT * FROM __InstanceCreationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_SystemDriver'"
 $Text = "%TargetInstance.SystemName%|'DRIVER_CREATION'|%TIME_CREATED%|%TargetInstance.Name%|%TargetInstance.PathName%|%TargetInstance.Caption%|%TargetInstance.Started%|%TargetInstance.StartMode%|%TargetInstance.StartName%|%TargetInstance.ServiceType%"
-Add-Signature -ComputerName $ComputerName -Name $Name -Query $Query -FileName $FileName -Text $Text -Type "LogFile" -Force</dev:code>
+Add-Subscription -ComputerName $ComputerName -Name $Name -Query $Query -FileName $FileName -Text $Text -Type "LogFile" -Force</dev:code>
        		<dev:remarks>
                 <maml:para>Description</maml:para>
                 <maml:para>-----------</maml:para>
-  			    <maml:para>This command creates a new signature.</maml:para>
+  			    <maml:para>This command creates a new Subscription.</maml:para>
 	            <maml:para></maml:para>
 	            <maml:para></maml:para>
 	            <maml:para></maml:para>
@@ -261,14 +261,14 @@ Add-Signature -ComputerName $ComputerName -Name $Name -Query $Query -FileName $F
 	<maml:relatedLinks>
 		<maml:navigationLink>
 			<maml:linkText>Online version:</maml:linkText>
-			<maml:uri>https://github.com/l00ps/Uproot/wiki/Get-Signature</maml:uri>
+			<maml:uri>https://github.com/Invoke-IR/Uproot/wiki/Get-Subscription</maml:uri>
 		</maml:navigationLink>
 		<maml:navigationLink>
-			<maml:linkText>Get-Signature</maml:linkText>
+			<maml:linkText>Get-Subscription</maml:linkText>
 			<maml:uri/>
 		</maml:navigationLink>
 		<maml:navigationLink>
-			<maml:linkText>Remove-Signature</maml:linkText>
+			<maml:linkText>Remove-Subscription</maml:linkText>
 			<maml:uri/>
 		</maml:navigationLink>
 		<maml:navigationLink>
@@ -283,53 +283,53 @@ Add-Signature -ComputerName $ComputerName -Name $Name -Query $Query -FileName $F
 <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
 	<command:details>
 		<command:name>
-            Get-Signature
+            Get-Subscription
 		</command:name>
 		<maml:description>
-			<maml:para>Gets the WMI Event Subscription Signatures that are running on the local or remote computer.</maml:para>
+			<maml:para>Gets the WMI Event Subscription Subscriptions that are running on the local or remote computer.</maml:para>
 		</maml:description>
 		<maml:copyright>
 			<maml:para>(c) 2014 Invoke-IR. All rights reserved.</maml:para>
 		</maml:copyright>
 		<command:verb>Get</command:verb>
-		<command:noun>Signature</command:noun>
+		<command:noun>Subscription</command:noun>
 		<dev:version>1.0.0.0</dev:version>
 	</command:details>
 	<maml:description>
-		<maml:para>The Get-Signature cmdlet gets WMI Event Subscriptions on a local or remote computer.</maml:para>
-        <maml:para>Without parameters, Get-Signature gets all of the WMI Event Subscriptions on the local computer. You can also specify a particular subscription by subscription name.</maml:para>
-        <maml:para>When a specific name is used, Get-Signature will return an array of the __Filter, CommandLineEventConsumer, and __FilterToConsumerBinding corresponding with the given name. When no name is specified, the Get-Signature cmdlet will return all __FilterToConsumerBinding Objects. </maml:para>
+		<maml:para>The Get-Subscription cmdlet gets WMI Event Subscriptions on a local or remote computer.</maml:para>
+        <maml:para>Without parameters, Get-Subscription gets all of the WMI Event Subscriptions on the local computer. You can also specify a particular subscription by subscription name.</maml:para>
+        <maml:para>When a specific name is used, Get-Subscription will return an array of the __Filter, CommandLineEventConsumer, and __FilterToConsumerBinding corresponding with the given name. When no name is specified, the Get-Subscription cmdlet will return all __FilterToConsumerBinding Objects. </maml:para>
 	</maml:description>
 
 	<!-- Cmdlet syntax section-->
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Get-Signature</maml:name>
+        <maml:name>Get-Subscription</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0">
           <maml:name>ComputerName</maml:name>
           <maml:description>
             <maml:para>Gets the WMI Event Subscriptions running on the specified computers. The default is the local computer.</maml:para>
             <maml:para>Type the NetBIOS name, and IP address, or a fully qulaified domain name of one or more computers.</maml:para>
-            <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Signature as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint. </maml:para>
+            <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Subscription as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint. </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
-        <maml:name>Get-Signature</maml:name>
+        <maml:name>Get-Subscription</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0">
           <maml:name>ComputerName</maml:name>
           <maml:description>
             <maml:para>Gets the WMI Event Subscriptions running on the specified computers. The default is the local computer.</maml:para>
             <maml:para>Type the NetBIOS name, and IP address, or a fully qulaified domain name of one or more computers.</maml:para>
-            <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Signature as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint. </maml:para>
+            <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Subscription as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint. </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>Specifies the Name of the intended Uproot Signature (WMI Event Subscription).</maml:para>
+            <maml:para>Specifies the Name of the intended Uproot Subscription (WMI Event Subscription).</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
         </command:parameter>
@@ -343,7 +343,7 @@ Add-Signature -ComputerName $ComputerName -Name $Name -Query $Query -FileName $F
 			<maml:description>
 				<maml:para>Gets the WMI Event Subscriptions running on the specified computers. The default is the local computer.</maml:para>
                 <maml:para>Type the NetBIOS name, and IP address, or a fully qulaified domain name of one or more computers.</maml:para>
-                <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Signature as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint. </maml:para>
+                <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Subscription as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint. </maml:para>
 			</maml:description>
 			<command:parameterValue required="false" variableLength="false">string[]</command:parameterValue>
 			<dev:type>
@@ -355,7 +355,7 @@ Add-Signature -ComputerName $ComputerName -Name $Name -Query $Query -FileName $F
 		<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
 			<maml:name>Name</maml:name>
 			<maml:description>
-				<maml:para>Specifies the Name of the intended Uproot Signature (WMI Event Subscription). </maml:para>
+				<maml:para>Specifies the Name of the intended Uproot Subscription (WMI Event Subscription). </maml:para>
 								
 			</maml:description>
 			<command:parameterValue required="true" variableLength="true">string</command:parameterValue>
@@ -386,14 +386,14 @@ Add-Signature -ComputerName $ComputerName -Name $Name -Query $Query -FileName $F
 	<command:returnValues>
 		<command:returnValue>
 			<dev:type>
-				<maml:name>Uproot.Signature[]</maml:name>
+				<maml:name>Uproot.Subscription[]</maml:name>
 				<maml:uri />
 				<maml:description />
 			</dev:type>   
 			<maml:description>
 				<maml:para>
 					<!-- description  -->
-					This cmdlet generates the Signature Objects that are associated with the Uproot WMI Event Subscription Objects.
+					This cmdlet generates the Subscription Objects that are associated with the Uproot WMI Event Subscription Objects.
 				</maml:para>
 			</maml:description> 
 		</command:returnValue>
@@ -410,7 +410,7 @@ Add-Signature -ComputerName $ComputerName -Name $Name -Query $Query -FileName $F
 				<maml:para>C:\PS&gt;</maml:para>
 			</maml:introduction> 
   			<dev:code>
-Get-Signature
+Get-Subscription
 
 ComputerName              Name                      ConsumerType              
 ------------              ----                      ------------              
@@ -421,7 +421,7 @@ WIN-OL5AKAF1OUJ           DRIVER_CREATION           LogFileEventConsumer
        			<dev:remarks>
                     <maml:para>Description</maml:para>
                     <maml:para>-----------</maml:para>
-  			        <maml:para>This command returns all the Uproot.Signature objects registered on the local system.</maml:para>
+  			        <maml:para>This command returns all the Uproot.Subscription objects registered on the local system.</maml:para>
 	                        <maml:para></maml:para>
 	                        <maml:para></maml:para>
 	                        <maml:para></maml:para>
@@ -442,7 +442,7 @@ WIN-OL5AKAF1OUJ           DRIVER_CREATION           LogFileEventConsumer
 				<maml:para>C:\PS&gt;</maml:para>
 			</maml:introduction> 
   			<dev:code>
-Get-Signature -Name "SERVICE_DELETION"
+Get-Subscription -Name "SERVICE_DELETION"
 
 ComputerName              Name                      ConsumerType              
 ------------              ----                      ------------              
@@ -451,7 +451,7 @@ WIN-OL5AKAF1OUJ           SERVICE_DELETION          LogFileEventConsumer
        			<dev:remarks>
                     <maml:para>Description</maml:para>
                     <maml:para>-----------</maml:para>
-  			        <maml:para>This command returns the Uproot.Signature object that is identified by the specified Name.</maml:para>
+  			        <maml:para>This command returns the Uproot.Subscription object that is identified by the specified Name.</maml:para>
 	                        <maml:para></maml:para>
 	                        <maml:para></maml:para>
 	                        <maml:para></maml:para>
@@ -469,14 +469,14 @@ WIN-OL5AKAF1OUJ           SERVICE_DELETION          LogFileEventConsumer
 	<maml:relatedLinks>
 		<maml:navigationLink>
 			<maml:linkText>Online version:</maml:linkText>
-			<maml:uri>https://github.com/l00ps/Uproot/wiki/Get-Signature</maml:uri>
+			<maml:uri>https://github.com/Invoke-IR/Uproot/wiki/Get-Subscription</maml:uri>
 		</maml:navigationLink>
 		<maml:navigationLink>
-			<maml:linkText>Add-Signature</maml:linkText>
+			<maml:linkText>Add-Subscription</maml:linkText>
 			<maml:uri/>
 		</maml:navigationLink>
 		<maml:navigationLink>
-			<maml:linkText>Remove-Signature</maml:linkText>
+			<maml:linkText>Remove-Subscription</maml:linkText>
 			<maml:uri/>
 		</maml:navigationLink>
 		<maml:navigationLink>
@@ -490,50 +490,50 @@ WIN-OL5AKAF1OUJ           SERVICE_DELETION          LogFileEventConsumer
 <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
 	<command:details>
 		<command:name>
-            Remove-Signature
+            Remove-Subscription
 		</command:name>
 		<maml:description>
-			<maml:para>Removes specified WMI Event Subscription Signatures that are running on the local or remote computer.</maml:para>
+			<maml:para>Removes specified WMI Event Subscription Subscriptions that are running on the local or remote computer.</maml:para>
 		</maml:description>
 		<maml:copyright>
 			<maml:para>(c) 2014 Invoke-IR. All rights reserved.</maml:para>
 		</maml:copyright>
 		<command:verb>Remove</command:verb>
-		<command:noun>Signature</command:noun>
+		<command:noun>Subscription</command:noun>
 		<dev:version>1.0.0.0</dev:version>
 	</command:details>
 	<maml:description>
-		<maml:para>The Remove-Signature cmdlet deletes WMI Event Subscription.  Subscriptions can be passed via the pipeline from Get-Signature, or their name and type can be specified as arguments.</maml:para>
-        <maml:para>Remove-Signature removes the Filter, Consumer, and Binding for each Signature.</maml:para>
+		<maml:para>The Remove-Subscription cmdlet deletes WMI Event Subscription.  Subscriptions can be passed via the pipeline from Get-Subscription, or their name and type can be specified as arguments.</maml:para>
+        <maml:para>Remove-Subscription removes the Filter, Consumer, and Binding for each Subscription.</maml:para>
 	</maml:description>
 	
 	<!-- Cmdlet syntax section-->
     <command:syntax>
         <command:syntaxItem>
-            <maml:name>Remove-Signature</maml:name>
+            <maml:name>Remove-Subscription</maml:name>
             <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)">
                 <maml:name>InputObject</maml:name>
                 <maml:description>
-                    <maml:para>An object created by Get-Signature that can be passed via the pipeline to Remove-Signature for deletion.</maml:para>
+                    <maml:para>An object created by Get-Subscription that can be passed via the pipeline to Remove-Subscription for deletion.</maml:para>
                 </maml:description>
-                <command:parameterValue required="true" variableLength="true">Uproot.Signature</command:parameterValue>
+                <command:parameterValue required="true" variableLength="true">Uproot.Subscription</command:parameterValue>
             </command:parameter>
         </command:syntaxItem>
         <command:syntaxItem>
-            <maml:name>Remove-Signature</maml:name>
+            <maml:name>Remove-Subscription</maml:name>
             <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false">
                 <maml:name>ComputerName</maml:name>
                 <maml:description>
                     <maml:para>Removes WMI Event Subscriptions running on the specified computers. The default is the local computer.</maml:para>
                     <maml:para>Type the NetBIOS name, and IP address, or a fully qulaified domain name of one or more computers.</maml:para>
-                    <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Signature as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint.</maml:para>
+                    <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Subscription as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint.</maml:para>
                 </maml:description>
                 <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
             </command:parameter>
             <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
                 <maml:name>Name</maml:name>
                 <maml:description>
-                    <maml:para>Contains the name of the Signature that should be removed.</maml:para>
+                    <maml:para>Contains the name of the Subscription that should be removed.</maml:para>
                     <maml:para>If an object is received via the pipeline, the Name parameter is not used.</maml:para>
                 </maml:description>
                 <command:parameterValue required="true" variableLength="true">string</command:parameterValue>
@@ -546,11 +546,11 @@ WIN-OL5AKAF1OUJ           SERVICE_DELETION          LogFileEventConsumer
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)">
             <maml:name>InputObject</maml:name>
             <maml:description>
-                <maml:para>An object created by Get-Signature that can be passed via the pipeline to Remove-Signature for deletion.</maml:para>
+                <maml:para>An object created by Get-Subscription that can be passed via the pipeline to Remove-Subscription for deletion.</maml:para>
             </maml:description>
-            <command:parameterValue required="true" variableLength="true">Uproot.Signature</command:parameterValue>
+            <command:parameterValue required="true" variableLength="true">Uproot.Subscription</command:parameterValue>
 		    <dev:type>
-				<maml:name>Uproot.Signature</maml:name>
+				<maml:name>Uproot.Subscription</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -560,7 +560,7 @@ WIN-OL5AKAF1OUJ           SERVICE_DELETION          LogFileEventConsumer
             <maml:description>
                 <maml:para>Removes WMI Event Subscriptions running on the specified computers. The default is the local computer.</maml:para>
                 <maml:para>Type the NetBIOS name, and IP address, or a fully qulaified domain name of one or more computers.</maml:para>
-                <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Signature as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint.</maml:para>
+                <maml:para>This parameter does not rely on Windows PowerShell remoting.  You can use the ComputerName parameter of Get-Subscription as long as the remote computer has its RPC Server running.  Additionally, PowerShell must be run with appropriate credentials for the remote endpoint.</maml:para>
             </maml:description>
             <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>	
 			<dev:type>
@@ -572,7 +572,7 @@ WIN-OL5AKAF1OUJ           SERVICE_DELETION          LogFileEventConsumer
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false">
             <maml:name>Name</maml:name>
             <maml:description>
-                <maml:para>Contains the name of the Signature that should be removed.</maml:para>
+                <maml:para>Contains the name of the Subscription that should be removed.</maml:para>
                 <maml:para>If an object is received via the pipeline, the Name parameter is not used.</maml:para>
             </maml:description>
             <command:parameterValue required="true" variableLength="true">string</command:parameterValue>	
@@ -588,14 +588,14 @@ WIN-OL5AKAF1OUJ           SERVICE_DELETION          LogFileEventConsumer
 	<command:inputTypes>
 		<command:inputType>
 			<dev:type>
-				<maml:name>Uproot.Signature</maml:name>
+				<maml:name>Uproot.Subscription</maml:name>
 				<maml:uri/>
 				<maml:description />
 			</dev:type>
 			<maml:description>
 				<maml:para>
 					<!-- description  -->
-					This cmdlet accepts one or more Uproot.Signature objects as input that populates the InputObject parameter.
+					This cmdlet accepts one or more Uproot.Subscription objects as input that populates the InputObject parameter.
 				</maml:para>
 			</maml:description>
 		</command:inputType>
@@ -625,12 +625,12 @@ WIN-OL5AKAF1OUJ           SERVICE_DELETION          LogFileEventConsumer
 			<maml:introduction>
 				<maml:para>C:\PS&gt;</maml:para>
 			</maml:introduction> 
-  			<dev:code> Get-Signature | Remove-Signature</dev:code>
+  			<dev:code> Get-Subscription | Remove-Subscription</dev:code>
        			<dev:remarks>
                                 <maml:para>Description</maml:para>
                                 <maml:para>-----------</maml:para>
-  			        <maml:para>This command removes all of the Signatures on the local machine.</maml:para>
-                    <maml:para>The output of the Get-Signature cmdlet is piped to the Remove-Signature cmdlet. The output is a set of Uproot.Signature objects.</maml:para>
+  			        <maml:para>This command removes all of the Subscriptions on the local machine.</maml:para>
+                    <maml:para>The output of the Get-Subscription cmdlet is piped to the Remove-Subscription cmdlet. The output is a set of Uproot.Subscription objects.</maml:para>
 	                        <maml:para></maml:para>
 	                        <maml:para></maml:para>
 	                        <maml:para></maml:para>
@@ -648,14 +648,14 @@ WIN-OL5AKAF1OUJ           SERVICE_DELETION          LogFileEventConsumer
 	<maml:relatedLinks>
 		<maml:navigationLink>
 			<maml:linkText>Online version:</maml:linkText>
-			<maml:uri>https://github.com/l00ps/Uproot/wiki/Get-Signature</maml:uri>
+			<maml:uri>https://github.com/Invoke-IR/Uproot/wiki/Get-Subscription</maml:uri>
 		</maml:navigationLink>
 		<maml:navigationLink>
-			<maml:linkText>Add-Signature</maml:linkText>
+			<maml:linkText>Add-Subscription</maml:linkText>
 			<maml:uri/>
 		</maml:navigationLink>
 		<maml:navigationLink>
-			<maml:linkText>Get-Signature</maml:linkText>
+			<maml:linkText>Get-Subscription</maml:linkText>
 			<maml:uri/>
 		</maml:navigationLink>
 		<maml:navigationLink>
