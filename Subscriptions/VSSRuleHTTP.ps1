@@ -1,0 +1,1 @@
+﻿Add-WMIEventSubscription -ComputerName $ComputerName -FilterName 
