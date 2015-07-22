@@ -32,7 +32,7 @@
         $AttributeCollection.Add($ParameterAttribute)
 
         # Generate and set the ValidateSet 
-        $arrSet = (Get-WMIEventFilter).Name
+        $arrSet = (Get-WmiObject -Namespace root\subscription -Class __EventFilter).Name
         $ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
 
         # Add the ValidateSet to the attributes collection
@@ -52,7 +52,8 @@
         $AttributeCollection.Add($ParameterAttribute)
 
         # Generate and set the ValidateSet 
-        $arrSet = (Get-WMIEventConsumer -ConsumerType $ConsumerType).Name
+        $class = $ConsumerType + 'EventConsumer'
+        $arrSet = (Get-WmiObject -Namespace root\subscription -Class $class).Name
         $ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
 
         # Add the ValidateSet to the attributes collection
