@@ -53,11 +53,11 @@
 
         # Generate and set the ValidateSet 
         $class = $ConsumerType + 'EventConsumer'
-        $arrSet = (Get-WmiObject -Namespace root\subscription -Class $class).Name
-        $ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
+        $arrSet1 = (Get-WmiObject -Namespace root\subscription -Class $class).Name
+        $ValidateSetAttribute1 = New-Object System.Management.Automation.ValidateSetAttribute($arrSet1)
 
         # Add the ValidateSet to the attributes collection
-        $AttributeCollection.Add($ValidateSetAttribute)
+        $AttributeCollection.Add($ValidateSetAttribute1)
 
         # Create and return the dynamic parameter
         $RuntimeParameter = New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterName, [string], $AttributeCollection)

