@@ -1,4 +1,4 @@
-﻿function Add-WMIEventFilter
+﻿function Add-WmiEventFilter
 {
     [CmdletBinding(DefaultParameterSetName = "Name")]
     Param(

@@ -1,4 +1,4 @@
-﻿function Add-WMIEventConsumer
+﻿function Add-WmiEventConsumer
 {
     [CmdletBinding()]
     Param(
