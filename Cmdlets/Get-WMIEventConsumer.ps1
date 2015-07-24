@@ -1,10 +1,11 @@
-﻿function Get-WMIEventConsumer
+﻿function Get-WmiEventConsumer
 {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     Param(
         [Parameter(Mandatory = $False, ValueFromPipeline = $True)]
             [string[]]$ComputerName = 'localhost',
-        [Parameter(Mandatory = $True)]
+        [Parameter(Mandatory = $True, ParameterSetName = 'Default')]
+        [Parameter(Mandatory = $True, ParameterSetName = 'Name')]
         [ValidateSet('ActiveScript', 'CommandLine', 'LogFile', 'NtEventLog', 'SMTP')]
             [string]$ConsumerType
     )

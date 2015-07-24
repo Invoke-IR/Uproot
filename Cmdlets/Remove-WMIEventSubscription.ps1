@@ -1,4 +1,4 @@
-﻿function Remove-WMIEventSubscription
+﻿function Remove-WmiEventSubscription
 {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     Param(

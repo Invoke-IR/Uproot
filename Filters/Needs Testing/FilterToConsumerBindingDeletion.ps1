@@ -1,0 +1,1 @@
+﻿Add-WMIEventFilter -ComputerName 'localhost' -EventNamespace root\subscription -Name FilterToConsumerBindingDeletion -Query "SELECT * FROM __InstanceDeletionEvent WITHIN 10 WHERE TargetInstance ISA '__FilterToConsumerBinding'"

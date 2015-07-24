@@ -1,4 +1,4 @@
-﻿function Get-WMIEventSubscription
+﻿function Get-WmiEventSubscription
 {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     Param(

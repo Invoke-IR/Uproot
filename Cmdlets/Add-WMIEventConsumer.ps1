@@ -1,12 +1,16 @@
-﻿function Add-WMIEventConsumer
+﻿function Add-WmiEventConsumer
 {
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory = $False, ValueFromPipeline = $True)]
             [string[]]$ComputerName = 'localhost',
-        [Parameter(Mandatory = $True)]
+        [Parameter(Mandatory = $True, ParameterSetName = 'ActiveScriptFile')] 
+        [Parameter(Mandatory = $True, ParameterSetName = 'ActiveScriptText')] 
+        [Parameter(Mandatory = $True, ParameterSetName = 'CommandLine')]
+        [Parameter(Mandatory = $True, ParameterSetName = "LogFile")]
+        [Parameter(Mandatory = $True, ParameterSetName = "NtEventLog")]
+        [Parameter(Mandatory = $True, ParameterSetName = "SMTP")]
             [string]$Name,
-        
         [Parameter(Mandatory = $False, ParameterSetName = 'ActiveScriptFile')]
         [Parameter(Mandatory = $False, ParameterSetName = 'ActiveScriptText')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
@@ -131,109 +135,153 @@
         #endregion SMTPParameters
     )
 
+        DynamicParam {
+        # Set the dynamic parameters' name
+        $ParameterName = 'ConsumerFile'
+            
+        # Create the dictionary 
+        $RuntimeParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+
+        # Create the collection of attributes
+        $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
+            
+        # Create and set the parameters' attributes
+        $ParameterAttribute = New-Object System.Management.Automation.ParameterAttribute
+        $ParameterAttribute.Mandatory = $True
+        $ParameterAttribute.ParameterSetName = "ConsumerFile"
+
+        # Add the attributes to the attributes collection
+        $AttributeCollection.Add($ParameterAttribute)
+
+        # Generate and set the ValidateSet 
+        $arrSet = (Get-ChildItem $UprootPath\Consumers -Filter *.ps1).BaseName
+        $ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
+
+        # Add the ValidateSet to the attributes collection
+        $AttributeCollection.Add($ValidateSetAttribute)
+
+        # Create and return the dynamic parameter
+        $RuntimeParameter = New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterName, [string], $AttributeCollection)
+        $RuntimeParameterDictionary.Add($ParameterName, $RuntimeParameter)
+        
+        return $RuntimeParameterDictionary
+    }
+
+    BEGIN
+    {
+        $ConsumerFile = $PSBoundParameters["ConsumerFile"]
+    }
+
     PROCESS
     {
         foreach($computer in $ComputerName)
         {
-            if($PSCmdlet.ParameterSetName.Contains("ActiveScript"))
-            {
-                $class = [WMICLASS]"\\$computer\root\subscription:ActiveScriptEventConsumer"
-                
-                $instance = $class.CreateInstance()
-                $instance.Name = $Name
-                $instance.KillTimeout = $KillTimeout
-                $instance.ScriptingEngine = $ScriptingEngine
-                if($PSCmdlet.ParameterSetName -eq "ActiveScriptFile")
-                {
-                    $instance.ScriptFileName = $ScriptFileName
-                    $instance.ScriptText = $null
-                }
-                elseif($PSCmdlet.ParameterSetName -eq "ActiveScriptText")
-                {
-                    $instance.ScriptFileName = $null
-                    $instance.ScriptText = $ScriptText
-                }
-
-                $instance.Put()
-            }
-            elseif($PSCmdlet.ParameterSetName -eq "CommandLine")
-            {
-                $class = [WMICLASS]"\\$computer\root\subscription:CommandLineEventConsumer"
-
-                $instance = $class.CreateInstance()
-                $instance.Name = $Name
-                $instance.CommandLineTemplate = $CommandLineTemplate
-                $instance.CreateNewProcessGroup = $CreateNewProcessGroup
-                $instance.CreateSeparateWowVdm = $CreateSeparateWowVdm
-                $instance.CreateSharedWowVdm = $CreateSharedWowVdm
-                $instance.ExecutablePath = $ExecutablePath
-                $instance.FillAttributes = $FillAttributes
-                $instance.ForceOffFeedback = $ForceOffFeedback
-                $instance.ForceOnFeedback = $ForceOnFeedback
-                $instance.KillTimeout = $KillTimeout
-                $instance.Priority = $Priority
-                $instance.RunInteractively = $RunInteractively
-                $instance.ShowWindowCommand = $ShowWindowCommand
-                $instance.UseDefaultErrorMode = $UseDefaultErrorMode
-                $instance.WindowTitle = $WindowTitle
-                $instance.WorkingDirectory = $WorkingDirectory
-                $instance.XCoordinate = $XCoordinate
-                $instance.XNumCharacters = $XNumCharacters
-                $instance.XSize = $XSize
-                $instance.YCoordinate = $YCoordinate
-                $instance.YNumCharacters = $YNumCharacters
-                $instance.YSize = $YSize
-            }
-            elseif($PSCmdlet.ParameterSetName -eq "LogFile")
-            {
-                $class = [WMICLASS]"\\$computer\root\subscription:LogFileEventConsumer"
-                
-                $instance = $class.CreateInstance()
-                $instance.Name = $Name
-                $instance.Filename = $Filename
-                $instance.IsUnicode = $IsUnicode
-                $instance.MaximumFileSize = $MaximumFileSize
-                $instance.Text = $Text
-
-                $instance.Put()
-            }
-            elseif($PSCmdlet.ParameterSetName -eq "NtEventLog")
-            {
-                $class = [WMICLASS]"\\$computer\root\subscription:NtEventLogEventConsumer"
-
-                $instance = $class.CreateInstance()
-                $instance.Category = $Category
-                $instance.EventID = $EventID
-                $instance.EventType = $EventType
-                $instance.InsertionStringTemplates = $InsertionStringTemplates
-                $instance.NumberOfInsertionStrings = $InsertionStringTemplates.Length
-                $instance.NameOfUserSidProperty = $NameOfUserSidProperty
-                $instance.NameOfRawDataProperty = $NameOfRawDataProperty
-                $instance.SourceName = $SourceName
-                $instance.UNCServerName = $UNCServerName
-
-                $instance.Put()
-            }
-            elseif($PSCmdlet.ParameterSetName -eq "SMTP")
-            {
-                $class = [WMICLASS]"\\$computer\root\subscription:SMTPEventConsumer"
-                
-                $instance = $class.CreateInstance()
-                $instance.BccLine = $BccLine
-                $instance.CcLine = $CcLine
-                $instance.FromLine = $FromLine
-                $instance.HeaderFields = $HeaderFields
-                $instance.Message = $Message
-                $instance.ReplyToLine = $ReplyToLine
-                $instance.SMTPServer = $SMTPServer
-                $instance.Subject = $Subject
-                $instance.ToLine = $ToLine
-
-                $instance.Put()
+            if($PSBoundParameters.ContainsKey("ConsumerFile")){
+                Get-Content "$($UprootPath)\Consumers\$($ConsumerFile).ps1" | Out-String | Invoke-Expression
+                Add-WMIEventConsumer @props
             }
             else
             {
-                Write-Error "No ParameterSet Chosen"
+                if($PSCmdlet.ParameterSetName.Contains("ActiveScript"))
+                {
+                    $class = [WMICLASS]"\\$computer\root\subscription:ActiveScriptEventConsumer"
+                
+                    $instance = $class.CreateInstance()
+                    $instance.Name = $Name
+                    $instance.KillTimeout = $KillTimeout
+                    $instance.ScriptingEngine = $ScriptingEngine
+                    if($PSCmdlet.ParameterSetName -eq "ActiveScriptFile")
+                    {
+                        $instance.ScriptFileName = $ScriptFileName
+                        $instance.ScriptText = $null
+                    }
+                    elseif($PSCmdlet.ParameterSetName -eq "ActiveScriptText")
+                    {
+                        $instance.ScriptFileName = $null
+                        $instance.ScriptText = $ScriptText
+                    }
+
+                    $instance.Put()
+                }
+                elseif($PSCmdlet.ParameterSetName -eq "CommandLine")
+                {
+                    $class = [WMICLASS]"\\$computer\root\subscription:CommandLineEventConsumer"
+
+                    $instance = $class.CreateInstance()
+                    $instance.Name = $Name
+                    $instance.CommandLineTemplate = $CommandLineTemplate
+                    $instance.CreateNewProcessGroup = $CreateNewProcessGroup
+                    $instance.CreateSeparateWowVdm = $CreateSeparateWowVdm
+                    $instance.CreateSharedWowVdm = $CreateSharedWowVdm
+                    $instance.ExecutablePath = $ExecutablePath
+                    $instance.FillAttributes = $FillAttributes
+                    $instance.ForceOffFeedback = $ForceOffFeedback
+                    $instance.ForceOnFeedback = $ForceOnFeedback
+                    $instance.KillTimeout = $KillTimeout
+                    $instance.Priority = $Priority
+                    $instance.RunInteractively = $RunInteractively
+                    $instance.ShowWindowCommand = $ShowWindowCommand
+                    $instance.UseDefaultErrorMode = $UseDefaultErrorMode
+                    $instance.WindowTitle = $WindowTitle
+                    $instance.WorkingDirectory = $WorkingDirectory
+                    $instance.XCoordinate = $XCoordinate
+                    $instance.XNumCharacters = $XNumCharacters
+                    $instance.XSize = $XSize
+                    $instance.YCoordinate = $YCoordinate
+                    $instance.YNumCharacters = $YNumCharacters
+                    $instance.YSize = $YSize
+                }
+                elseif($PSCmdlet.ParameterSetName -eq "LogFile")
+                {
+                    $class = [WMICLASS]"\\$computer\root\subscription:LogFileEventConsumer"
+                
+                    $instance = $class.CreateInstance()
+                    $instance.Name = $Name
+                    $instance.Filename = $Filename
+                    $instance.IsUnicode = $IsUnicode
+                    $instance.MaximumFileSize = $MaximumFileSize
+                    $instance.Text = $Text
+
+                    $instance.Put()
+                }
+                elseif($PSCmdlet.ParameterSetName -eq "NtEventLog")
+                {
+                    $class = [WMICLASS]"\\$computer\root\subscription:NtEventLogEventConsumer"
+
+                    $instance = $class.CreateInstance()
+                    $instance.Category = $Category
+                    $instance.EventID = $EventID
+                    $instance.EventType = $EventType
+                    $instance.InsertionStringTemplates = $InsertionStringTemplates
+                    $instance.NumberOfInsertionStrings = $InsertionStringTemplates.Length
+                    $instance.NameOfUserSidProperty = $NameOfUserSidProperty
+                    $instance.NameOfRawDataProperty = $NameOfRawDataProperty
+                    $instance.SourceName = $SourceName
+                    $instance.UNCServerName = $UNCServerName
+
+                    $instance.Put()
+                }
+                elseif($PSCmdlet.ParameterSetName -eq "SMTP")
+                {
+                    $class = [WMICLASS]"\\$computer\root\subscription:SMTPEventConsumer"
+                
+                    $instance = $class.CreateInstance()
+                    $instance.BccLine = $BccLine
+                    $instance.CcLine = $CcLine
+                    $instance.FromLine = $FromLine
+                    $instance.HeaderFields = $HeaderFields
+                    $instance.Message = $Message
+                    $instance.ReplyToLine = $ReplyToLine
+                    $instance.SMTPServer = $SMTPServer
+                    $instance.Subject = $Subject
+                    $instance.ToLine = $ToLine
+
+                    $instance.Put()
+                }
+                else
+                {
+                    Write-Error "No ParameterSet Chosen"
+                }
             }
         }
     }
