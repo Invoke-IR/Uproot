@@ -27,3 +27,19 @@ Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmjoy](h
     Uproot.NtEventLogEventConsumer    -   
     Uproot.SMTPEventConsumer          -   
     Uproot.Subscription               -   
+
+## Signatures
+### Filters
+    DriverCreation                    -   
+    LoggedOnUserCreation              -   
+    NetworkConnectionCreation         -   
+    ProcessCreation                   -   
+    ScheduledJobCreation              -   
+    ServerConnectionCreation          -   
+    ServiceCreation                   -   
+    ShadowCopyCreation                -   
+    ShareCreation                     -   
+    UserCreation                      -       
+
+### Consumers
+    AS_GenericHTTP	              -   
