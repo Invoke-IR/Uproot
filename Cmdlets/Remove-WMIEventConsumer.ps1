@@ -2,13 +2,14 @@
 {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     Param(
-        [Parameter(Mandatory = $False, ValueFromPipeline = $True)]
+        [Parameter(Mandatory = $False)]
             [string[]]$ComputerName = 'localhost',
-        [Parameter(Mandatory = $True)]
+        [Parameter(Mandatory = $True, ParameterSetName = 'Default')]
+        [Parameter(Mandatory = $True, ParameterSetName = 'Name')]
         [ValidateSet('ActiveScript', 'CommandLine', 'LogFile', 'NtEventLog', 'SMTP')]
             [string]$ConsumerType,
-        [Parameter(Mandatory = $True, ParameterSetName = 'Name')]
-            [string]$Name
+        [Parameter(Mandatory = $True, ParameterSetName = "InputObject", ValueFromPipeline = $True)]
+            $InputObject
     )
 
     DynamicParam {
@@ -52,21 +53,30 @@
 
     PROCESS
     {
-        foreach($computer in $ComputerName)
+        if($PSCmdlet.ParameterSetName -eq "InputObject")
         {
-            if($PSCmdlet.ParameterSetName -eq 'Name')
+            $Name = $InputObject.Name
+            $ConsumerType = $InputObject.ConsumerType
+            $computer = $InputObject.ComputerName
+            $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class $ConsumerType -Filter "Name=`'$Name`'"
+        }
+        else
+        {
+            foreach($computer in $ComputerName)
             {
-                $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class $class -Filter "Name=`'$Name`'"
+                if($PSCmdlet.ParameterSetName -eq 'Name')
+                {
+                    $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class $class -Filter "Name=`'$Name`'"
+                }
+                else
+                {
+                    $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class $class
+                }
             }
-            else
-            {
-                $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class $class
-            }
-
-            foreach($obj in $objects)
-            {
-                $obj | Remove-WmiObject
-            }
+        }
+        foreach($obj in $objects)
+        {
+            $obj | Remove-WmiObject
         }
     }
 }

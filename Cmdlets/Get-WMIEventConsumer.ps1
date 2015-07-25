@@ -72,6 +72,7 @@
                             'ComputerName' = $obj.__SERVER;
                             'Path' = $obj.Path;
                             'Name' = $obj.Name;
+                            'ConsumerType' = $class;
                             'KillTimeout' = $obj.KillTimeout;
                             'MaximumQueueSize' = $obj.MaximumQueueSize;
                             'ScriptingEngine' = $obj.ScriptingEngine;
@@ -87,6 +88,7 @@
                             'ComputerName' = $obj.__SERVER;
                             'Path' = $obj.Path;
                             'Name' = $obj.Name;
+                            'ConsumerType' = $class;
                             'CommandLineTemplate' = $obj.CommandLineTemplate;
                             'CreateNewProcessGroup' = $obj.CreateNewProcessGroup;
                             'CreateSeparateWowVdm' = $obj.CreateSeparateWowVdm;
@@ -118,6 +120,7 @@
                             'ComputerName' = $obj.__SERVER;
                             'Path' = $obj.Path;
                             'Name' = $obj.Name;
+                            'ConsumerType' = $class;
                             'Filename' = $obj.Filename;
                             'IsUnicode' = $obj.IsUnicode;
                             'MaximumFileSize' = $obj.MaximumFileSize;
@@ -132,6 +135,7 @@
                             'ComputerName' = $obj.__SERVER;
                             'Path' = $obj.Path;
                             'Name' = $obj.Name;
+                            'ConsumerType' = $class;
                             'Category' = $obj.Category;
                             'EventID' = $obj.EventID;
                             'EventType' = $obj.EventType;
@@ -151,6 +155,7 @@
                             'ComputerName' = $obj.__SERVER;
                             'Path' = $obj.Path;
                             'Name' = $obj.Name;
+                            'ConsumerType' = $class;
                             'BccLine' = $obj.BccLine
                             'CcLine' = $obj.CcLine
                             'FromLine' = $obj.FromLine
