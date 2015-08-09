@@ -2,28 +2,39 @@
 {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     Param(
-        [Parameter(Mandatory = $False, ValueFromPipeline = $True)]
+        [Parameter(Mandatory = $False)]
             [string[]]$ComputerName = 'localhost',
-        [Parameter(Mandatory = $False, ParameterSetName = 'Name')]
-            [string]$Name
+        [Parameter(Mandatory = $True, ParameterSetName = 'Name')]
+            [string]$Name,
+        [Parameter(Mandatory = $True, ParameterSetName = "InputObject", ValueFromPipeline = $True)]
+            $InputObject
     )
 
     PROCESS
     {
-        foreach($computer in $ComputerName)
+        if($PSCmdlet.ParameterSetName -eq "InputObject")
         {
-            if($PSCmdlet.ParameterSetName -eq 'Name')
+            $Name = $InputObject.Filter.Name
+            $computer = $InputObject.ComputerName
+            $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class __FilterToConsumerBinding -Filter "__RELPATH LIKE `'%$Name%`'" | Remove-WmiObject
+        }
+        else
+        {
+            foreach($computer in $ComputerName)
             {
-                $objects = Get-WmiObject -ComputerName $computer -Namespace root\subscription -Class __FilterToConsumerBinding -Filter "__RELPATH LIKE `'%$Name%`'"
-            }
-            else
-            {
-                $objects = Get-WmiObject -ComputerName $computer -Namespace root\subscription -Class __FilterToConsumerBinding
-            }
+                if($PSCmdlet.ParameterSetName -eq 'Name')
+                {
+                    $objects = Get-WmiObject -ComputerName $computer -Namespace root\subscription -Class __FilterToConsumerBinding -Filter "__RELPATH LIKE `'%$Name%`'"
+                }
+                else
+                {
+                    $objects = Get-WmiObject -ComputerName $computer -Namespace root\subscription -Class __FilterToConsumerBinding
+                }
 
-            foreach($obj in $objects)
-            {
-                $obj | Remove-WmiObject
+                foreach($obj in $objects)
+                {
+                    $obj | Remove-WmiObject
+                }
             }
         }
     }

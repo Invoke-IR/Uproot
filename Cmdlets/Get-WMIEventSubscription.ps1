@@ -25,32 +25,21 @@
             {
                 # Derive Filter Name
                 $FilterName = $obj.Filter.Split('"')[1]
-                
-                # Derive Consumer Type
-                if($obj.Consumer.Contains(':'))
-                {
-                    $ConsumerType = $obj.Consumer.Split(':')[1].Split('.')[0].Replace('EventConsumer', '')
-                }
-                else
-                {
-                    $ConsumerType = $obj.Consumer.Split('.')[0].Replace('EventConsumer', '')
-                }
+                $FilterPath = $obj.__PATH.Split(':')[0] + ":" + $obj.Filter
 
                 # Derive Consumer Name
                 $ConsumerName = $obj.Consumer.Split('"')[1]
-
-                $Filter = Get-WMIEventFilter -ComputerName $computer -Name $FilterName 
-                $Consumer = Get-WMIEventConsumer -ComputerName $computer -ConsumerType $ConsumerType -Name $ConsumerName
+                $ConusumerType = $obj.Consumer.Split(".")[0]
+                $ConsumerPath = $obj.__PATH.Split(':')[0] + ":" + $obj.Consumer
 
                 $props = @{
                     'ComputerName' = $obj.__SERVER;
-                    'Filter' = $Filter;
+                    'Path' = $obj.__PATH;
                     'FilterName' = $FilterName;
-                    'FilterPath' = $Filter.Path;
-                    'Consumer' = $Consumer;
+                    'FilterPath' = $FilterPath;
                     'ConsumerType' = $ConsumerType;
                     'ConsumerName' = $ConsumerName;
-                    'ConsumerPath' = $Consumer.Path;
+                    'ConsumerPath' = $ConsumerPath;
                 }
 
                 $obj = New-Object -TypeName PSObject -Property $props | Write-Output
