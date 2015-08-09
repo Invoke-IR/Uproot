@@ -1,9 +1,11 @@
 ﻿function Add-WmiEventConsumer
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'ConsumerFile')]
     Param(
         [Parameter(Mandatory = $False, ValueFromPipeline = $True)]
             [string[]]$ComputerName = 'localhost',
+        [Parameter(Mandatory = $True, ParameterSetName = 'ConsumerFile')]
+            [string]$ConsumerFile,
         [Parameter(Mandatory = $True, ParameterSetName = 'ActiveScriptFile')] 
         [Parameter(Mandatory = $True, ParameterSetName = 'ActiveScriptText')] 
         [Parameter(Mandatory = $True, ParameterSetName = 'CommandLine')]
@@ -135,41 +137,9 @@
         #endregion SMTPParameters
     )
 
-        DynamicParam {
-        # Set the dynamic parameters' name
-        $ParameterName = 'ConsumerFile'
-            
-        # Create the dictionary 
-        $RuntimeParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
-
-        # Create the collection of attributes
-        $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
-            
-        # Create and set the parameters' attributes
-        $ParameterAttribute = New-Object System.Management.Automation.ParameterAttribute
-        $ParameterAttribute.Mandatory = $True
-        $ParameterAttribute.ParameterSetName = "ConsumerFile"
-
-        # Add the attributes to the attributes collection
-        $AttributeCollection.Add($ParameterAttribute)
-
-        # Generate and set the ValidateSet 
-        $arrSet = (Get-ChildItem $UprootPath\Consumers -Filter *.ps1).BaseName
-        $ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
-
-        # Add the ValidateSet to the attributes collection
-        $AttributeCollection.Add($ValidateSetAttribute)
-
-        # Create and return the dynamic parameter
-        $RuntimeParameter = New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterName, [string], $AttributeCollection)
-        $RuntimeParameterDictionary.Add($ParameterName, $RuntimeParameter)
-        
-        return $RuntimeParameterDictionary
-    }
-
     BEGIN
     {
-        $ConsumerFile = $PSBoundParameters["ConsumerFile"]
+
     }
 
     PROCESS
@@ -178,6 +148,7 @@
         {
             if($PSBoundParameters.ContainsKey("ConsumerFile")){
                 Get-Content "$($UprootPath)\Consumers\$($ConsumerFile).ps1" | Out-String | Invoke-Expression
+                $props.Add('ComputerName', $computer)
                 Add-WMIEventConsumer @props
             }
             else

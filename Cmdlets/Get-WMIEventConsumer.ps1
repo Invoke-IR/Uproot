@@ -4,49 +4,13 @@
     Param(
         [Parameter(Mandatory = $False, ValueFromPipeline = $True)]
             [string[]]$ComputerName = 'localhost',
-        [Parameter(Mandatory = $True, ParameterSetName = 'Default')]
         [Parameter(Mandatory = $True, ParameterSetName = 'Name')]
-        [ValidateSet('ActiveScript', 'CommandLine', 'LogFile', 'NtEventLog', 'SMTP')]
-            [string]$ConsumerType
+            [string]$Name
     )
-
-    DynamicParam {
-        # Set the dynamic parameters' name
-        $ParameterName = 'Name'
-            
-        # Create the dictionary 
-        $RuntimeParameterDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
-
-        # Create the collection of attributes
-        $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
-            
-        # Create and set the parameters' attributes
-        $ParameterAttribute = New-Object System.Management.Automation.ParameterAttribute
-        $ParameterAttribute.Mandatory = $True
-        $ParameterAttribute.ParameterSetName = 'Name'
-
-        # Add the attributes to the attributes collection
-        $AttributeCollection.Add($ParameterAttribute)
-
-        # Generate and set the ValidateSet 
-        $class = $ConsumerType + 'EventConsumer'
-        $arrSet = (Get-WmiObject -Namespace root\subscription -Class $class).Name
-        $ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
-
-        # Add the ValidateSet to the attributes collection
-        $AttributeCollection.Add($ValidateSetAttribute)
-
-        # Create and return the dynamic parameter
-        $RuntimeParameter = New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterName, [string], $AttributeCollection)
-        $RuntimeParameterDictionary.Add($ParameterName, $RuntimeParameter)
-        
-        return $RuntimeParameterDictionary
-    }
 
     BEGIN
     {
-        $Name = $PSBoundParameters["Name"]
-        $class = $ConsumerType + 'EventConsumer'
+
     }
 
     PROCESS
@@ -55,24 +19,24 @@
         {
             if($PSCmdlet.ParameterSetName -eq 'Name')
             {
-                $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class $class -Filter "Name=`'$Name`'"
+                $objects = Get-WmiObject -ComputerName $computer -Namespace root\subscription -Class __EventConsumer -Filter "__PATH LIKE `'%$Name%`'"
             }
             else
             {
-                $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class $class
+                $objects = Get-WmiObject -ComputerName $computer -Namespace root\subscription -Class __EventConsumer
             }
 
             foreach($obj in $objects)
             {
-                switch($ConsumerType)
+                switch($obj.__CLASS)
                 {
-                    ActiveScript 
+                    ActiveScriptEventConsumer
                     {
                         $props = @{
                             'ComputerName' = $obj.__SERVER;
                             'Path' = $obj.Path;
                             'Name' = $obj.Name;
-                            'ConsumerType' = $class;
+                            'ConsumerType' = $obj.__CLASS;
                             'KillTimeout' = $obj.KillTimeout;
                             'MaximumQueueSize' = $obj.MaximumQueueSize;
                             'ScriptingEngine' = $obj.ScriptingEngine;
@@ -82,7 +46,7 @@
                         $obj = New-Object -TypeName PSObject -Property $props
                         $obj.PSObject.TypeNames.Insert(0, 'Uproot.ActiveScriptEventConsumer')
                     }
-                    CommandLine 
+                    CommandLineEventConsumer
                     {
                         $props = @{
                             'ComputerName' = $obj.__SERVER;
@@ -114,7 +78,7 @@
                         $obj = New-Object -TypeName PSObject -Property $props
                         $obj.PSObject.TypeNames.Insert(0, 'Uproot.CommandLineEventConsumer')
                     }
-                    LogFile 
+                    LogFileEventConsumer
                     {
                         $props = @{
                             'ComputerName' = $obj.__SERVER;
@@ -129,7 +93,7 @@
                         New-Object -TypeName PSObject -Property $props
                         $obj.PSObject.TypeNames.Insert(0, 'Uproot.LogFileEventConsumer')
                     }
-                    NtEventLog 
+                    NtEventLogEventConsumer
                     {
                         $props = @{
                             'ComputerName' = $obj.__SERVER;
@@ -149,7 +113,7 @@
                         $obj = New-Object -TypeName PSObject -Property $props
                         $obj.PSObject.TypeNames.Insert(0, 'Uproot.NtEventLogEventConsumer')
                     }
-                    SMTP 
+                    SMTPEventConsumer
                     {
                         $props = @{
                             'ComputerName' = $obj.__SERVER;
