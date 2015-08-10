@@ -7,11 +7,7 @@
         [Parameter(Mandatory = $True, ParameterSetName = 'Name')]
             [string]$FilterName,
         [Parameter(Mandatory = $True, ParameterSetName = 'Name')]
-            [string]$ConsumerName,
-        [Parameter(Mandatory = $True, ParameterSetName = 'Path')]
-            [string]$FilterPath,
-        [Parameter(Mandatory = $True, ParameterSetName = 'Path')]
-            [string]$ConsumerPath
+            [string]$ConsumerName
     )
 
     BEGIN
@@ -30,11 +26,6 @@
             {
                 $instance.Filter = (Get-WMIEventFilter -ComputerName $computer -Name $FilterName).Path
                 $instance.Consumer = (Get-WMIEventConsumer -ComputerName $computer -Name $ConsumerName).Path
-            }
-            elseif($PSCmdlet.ParameterSetName -eq 'Path')
-            {
-                $instance.Filter = $FilterPath
-                $instance.Consumer = $ConsumerPath
             }
 
             $instance.Put()
