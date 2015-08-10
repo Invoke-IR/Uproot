@@ -19,7 +19,6 @@ Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson)
     Remove-WmiEventSubscription
     
 ## Classes
-### Windows Artifacts
     Uproot.Filter
     Uproot.ActiveScriptEventConsumer
     Uproot.CommandLineEventConsumer
