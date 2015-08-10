@@ -1,1 +1,0 @@
-﻿Add-WMIEventFilter -ComputerName 'localhost' -Name StartupCommandCreation -Query "SELECT * FROM __InstanceCreationEvent WITHIN 10 WHERE TargetInstance ISA 'Win32_StartupCommand'"
