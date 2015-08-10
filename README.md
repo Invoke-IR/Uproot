@@ -1,6 +1,6 @@
 #Uproot
 
-Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson)
+Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmj0y](https://twitter.com/harmj0y), [@sixdub](https://twitter.com/sixdub)
 
 ## Cmdlets
 ### Event Filter (__EventFilter):
