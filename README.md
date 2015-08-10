@@ -43,10 +43,12 @@ Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmj0y](h
     UserProfileCreation
 
 ### Consumers
-    AS_ExtrinsicHTTPPOST
-    AS_IntrinsicHTTPPOST
+    Generic JSON formatters (format objects as JSON and POSTs to web server defined within consumer code)
+    AS_ExtrinsicHTTPPOST - Generic ActiveScriptEventConsumer for Extrinsic Events (Win32_ProcessStartTrace)
+    AS_IntrinsicHTTPPOST - Generic ActiveScriptEventConsumer for Intrinsic Events (Win32_ProcessCreation)
     
 ## Examples
+    ### Note: Edit IP Address in AS_ExtrinsicHTTPPOST file
     Add-WmiEventFilter -FilterFile ProcessStartTrace
     Add-WmiEventConsumer -ConsumerFile AS_ExtrinsicHTTPPOST
     Add-WmiEventSubscription -FilterName ProcessStartTrace -ConsumerName AS_ExtrinsicHTTPPOST
