@@ -1,45 +1,55 @@
 #Uproot
 
-Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmjoy](https://twitter.com/harmj0y), and [@sixdub](https://twitter.com/sixdub)
+Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson)
 
 ## Cmdlets
 ### Event Filter (__EventFilter):
-    Add-WMIEventFilter                -   
-    Get-WMIEventFilter                -   
-    Remove-WMIEventFilter             -   
+    Add-WmiEventFilter
+    Get-WmiEventFilter 
+    Remove-WmiEventFilter  
 
 ### Event Consumers (__EventConsumer):
-    Add-WMIEventConsumer              -   
-    Get-WMIEventConsumer              -   
-    Remove-WMIEventConsumer           -   
+    Add-WmiEventConsumer
+    Get-WmiEventConsumer
+    Remove-WmiEventConsumer
 
 ### Event Subscription (__FilterToConsumerBinding):
-    Add-WMIEventSubscription          -   
-    Get-WMIEventSubscription          -   
-    Remove-WMIEventSubscription       -   
+    Add-WmiEventSubscription
+    Get-WmiEventSubscription
+    Remove-WmiEventSubscription
     
 ## Classes
 ### Windows Artifacts
-    Uproot.Filter                     -   
-    Uproot.ActiveScriptEventConsumer  -   
-    Uproot.CommandLineEventConsumer   -   
-    Uproot.LogFileEventConsumer       -   
-    Uproot.NtEventLogEventConsumer    -   
-    Uproot.SMTPEventConsumer          -   
-    Uproot.Subscription               -   
+    Uproot.Filter
+    Uproot.ActiveScriptEventConsumer
+    Uproot.CommandLineEventConsumer
+    Uproot.LogFileEventConsumer
+    Uproot.NtEventLogEventConsumer
+    Uproot.SMTPEventConsumer
+    Uproot.Subscription
 
 ## Signatures
 ### Filters
-    DriverCreation                    -   
-    LoggedOnUserCreation              -   
-    NetworkConnectionCreation         -   
-    ProcessCreation                   -   
-    ScheduledJobCreation              -   
-    ServerConnectionCreation          -   
-    ServiceCreation                   -   
-    ShadowCopyCreation                -   
-    ShareCreation                     -   
-    UserCreation                      -       
+    DriverCreation
+    LoggedOnUserCreation
+    NetworkConnectionCreation
+    ProcessCreation
+    ProcessStartTrace
+    ScheduledJobCreation
+    ServerConnectionCreation
+    ServiceCreation
+    ShadowCopyCreation
+    ShareCreation
+    UserCreation
+    UserProfileCreation
 
 ### Consumers
-    AS_GenericHTTP	              -   
+    AS_ExtrinsicHTTPPOST
+    AS_IntrinsicHTTPPOST
+    
+## Examples
+    Add-WmiEventFilter -FilterFile ProcessStartTrace
+    Add-WmiEventConsumer -ConsumerFile AS_ExtrinsicHTTPPOST
+    Add-WmiEventSubscription -FilterName ProcessStartTrace -ConsumerName AS_ExtrinsicHTTPPOST
+    
+    
