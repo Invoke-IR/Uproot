@@ -1,8 +1,8 @@
 ﻿$script = @"
 Set objHTTP = CreateObject("Microsoft.XMLHTTP")
-objHTTP.open "POST", "http://172.16.1.117/", False
+objHTTP.open "POST", "http://127.0.0.1/", False
 
-objHTTP.setRequestHeader "User-Agent", "DoYouEven-TF12-Bro?"
+objHTTP.setRequestHeader "User-Agent", "UprootIDS"
 
 Dim outputString
 

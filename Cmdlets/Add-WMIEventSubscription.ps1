@@ -10,11 +10,6 @@
             [string]$ConsumerName
     )
 
-    BEGIN
-    {
-
-    }
-
     PROCESS
     {
         foreach($computer in $ComputerName)

@@ -21,7 +21,7 @@
         {
             $Name = $InputObject.Name
             $computer = $InputObject.ComputerName
-            $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class '__EventFilter' -Filter "Name=`'$Name`'" | Remove-WmiObject
+            $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class '__EventFilter' -Filter "Name=`'$Name`'"
         }
         else
         {
