@@ -90,7 +90,7 @@
                             'MaximumFileSize' = $obj.MaximumFileSize;
                             'Text' = $obj.Text;
                         }
-                        New-Object -TypeName PSObject -Property $props
+                        $obj = New-Object -TypeName PSObject -Property $props
                         $obj.PSObject.TypeNames.Insert(0, 'Uproot.LogFileEventConsumer')
                     }
                     NtEventLogEventConsumer
