@@ -14,7 +14,7 @@
         {
             if($PSCmdlet.ParameterSetName -eq 'Name')
             {
-                $objects = Get-WmiObject -ComputerName $computer -Namespace root\subscription -Class __FilterToConsumerBinding -Filter "__RELPATH LIKE `'%$Name%`'"
+                $objects = Get-WmiObject -ComputerName $computer -Namespace root\subscription -Class __FilterToConsumerBinding | Where-Object {$_.Filter.Split('"')[1].Split('"')[0] -eq $Name}
             }
             else
             {

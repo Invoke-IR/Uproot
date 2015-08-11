@@ -21,7 +21,7 @@
         {
             $Name = $InputObject.Name
             $computer = $InputObject.ComputerName
-            $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class __EventConsumer -Filter "__PATH LIKE `'%$Name%`'"
+            $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class __EventConsumer | Where-Object {$_.Name -eq $Name}
         }
         else
         {
@@ -29,7 +29,12 @@
             {
                 if($PSCmdlet.ParameterSetName -eq 'Name')
                 {
-                    $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class __EventConsumer -Filter "__PATH LIKE `'%$Name%`'"
+                    $objects = Get-WmiObject -ComputerName $computer -Namespace 'root\subscription' -Class __EventConsumer | Where-Object {$_.Name -eq $Name}
+                    #if($objects = $null)
+                    #{
+                    #    $Exception = New-Object System.Exception("Get-WmiEventConsumer : Cannot find a consumer with the name `"$Name`". Verify the consumer name and call the cmdlet again.")
+                    #    throw
+                    #}
                 }
                 else
                 {

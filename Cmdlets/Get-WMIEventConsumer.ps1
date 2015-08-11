@@ -19,7 +19,7 @@
         {
             if($PSCmdlet.ParameterSetName -eq 'Name')
             {
-                $objects = Get-WmiObject -ComputerName $computer -Namespace root\subscription -Class __EventConsumer -Filter "__PATH LIKE `'%$Name%`'"
+                $objects = Get-WmiObject -ComputerName $computer -Namespace root\subscription -Class __EventConsumer | Where-Object {$_.Name -eq $Name}
             }
             else
             {
