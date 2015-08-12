@@ -48,10 +48,6 @@
             [string]$ExecutablePath,
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
-        [ValidateSet(0x1, 0x2, 0x4, 0x8, 0x10, 0x20, 0x40, 0x80)]
-            [UInt32]$FillAttributes,
-        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
-        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [bool]$ForceOffFeedback = $False,
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
@@ -203,7 +199,6 @@
                     $instance.CreateSeparateWowVdm = $CreateSeparateWowVdm
                     $instance.CreateSharedWowVdm = $CreateSharedWowVdm
                     $instance.ExecutablePath = $ExecutablePath
-                    #$instance.FillAttributes = $FillAttributes
                     $instance.ForceOffFeedback = $ForceOffFeedback
                     $instance.ForceOnFeedback = $ForceOnFeedback
                     $instance.KillTimeout = $KillTimeout
