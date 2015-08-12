@@ -1335,9 +1335,39 @@ Windows Server 2003: If the user logon is through a terminal services connection
 				<maml:introduction>
 					<maml:para>PS C:\&gt; </maml:para>
 				</maml:introduction>
-				<dev:code>Add-WmiEventConsumer -Name LogTest -Filename C:\temp\output.txt -Text &quot;%TargetInstance%&quot;</dev:code>
+				<dev:code>Add-WmiEventConsumer -ComputerName SERVER1 -Name LogTest -Filename C:\temp\output.txt -Text &quot;%TargetInstance%&quot;
+
+
+Path          : \\SERVER1\root\subscription:LogFileEventConsumer.Name=&quot;LogTest&quot;
+RelativePath  : LogFileEventConsumer.Name=&quot;LogTest&quot;
+Server        : localhost
+NamespacePath : root\subscription
+ClassName     : LogFileEventConsumer
+IsClass       : False
+IsInstance    : True
+IsSingleton   : False</dev:code>
 				<dev:remarks>
-					<maml:para>Add a LogFile Event Consumer named LogTest that outputs to C:\temp\output.txt</maml:para>
+					<maml:para>Add a LogFile Event Consumer named LogTest on SERVER1 that outputs to C:\temp\output.txt</maml:para>
+				</dev:remarks>
+			</command:example>
+			<command:example>
+				<maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+				<maml:introduction>
+					<maml:para>PS C:\&gt; </maml:para>
+				</maml:introduction>
+				<dev:code>Add-WMIEventConsumer -Name commandlineexe -ExecutablePath calc.exe
+
+
+Path          : \\localhost\root\subscription:CommandLineEventConsumer.Name=&quot;commandlineexe
+RelativePath  : CommandLineEventConsumer.Name=&quot;commandlineexe&quot;
+Server        : localhost
+NamespacePath : root\subscription
+ClassName     : CommandLineEventConsumer
+IsClass       : False
+IsInstance    : True
+IsSingleton   : False</dev:code>
+				<dev:remarks>
+					<maml:para>Adds a CommandLineEventConsumer that starts a calc.exe process in the background</maml:para>
 				</dev:remarks>
 			</command:example>
 		</command:examples>

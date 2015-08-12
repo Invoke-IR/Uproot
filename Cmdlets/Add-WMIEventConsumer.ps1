@@ -32,48 +32,62 @@
         #endregion ActiveScriptParameters
         
         #region CommandLineParameters
-        [Parameter(Mandatory = $True, ParameterSetName = 'CommandLine')]
+        [Parameter(Mandatory = $True, ParameterSetName = 'CommandLineTemplate')]
         #Validate executable exists
             [string]$CommandLineTemplate,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [bool]$CreateNewProcessGroup = $True,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [bool]$CreateSeparateWowVdm = $False,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [bool]$CreateSharedWowVdm = $False,
         [Parameter(Mandatory = $True, ParameterSetName = 'CommandLine')]
             [string]$ExecutablePath,
-        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
-        [ValidateSet(0x1, 0x2, 0x4, 0x8, 0x10, 0x20, 0x40, 0x80)]
-            [UInt32]$FillAttributes,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [bool]$ForceOffFeedback = $False,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [bool]$ForceOnFeedback = $False,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
         [ValidateSet(0x20, 0x40, 0x80, 0x100)]
             [Int32]$Priority = 0x20,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [bool]$RunInteractively = $False,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
         [ValidateRange(0x00,0x0A)]
             [UInt32]$ShowWindowCommand,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [bool]$UseDefaultErrorMode = $False,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [string]$WindowTitle,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [string]$WorkingDirectory,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [UInt32]$XCoordinate,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [UInt32]$XNumCharacters,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [UInt32]$XSize,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [UInt32]$YCoordinate,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [UInt32]$YNumCharacters,
+        [Parameter(Mandatory = $False, ParameterSetName = 'CommandLineTemplate')]
         [Parameter(Mandatory = $False, ParameterSetName = 'CommandLine')]
             [UInt32]$YSize,
         #endregion CommandLineParameters
@@ -185,7 +199,6 @@
                     $instance.CreateSeparateWowVdm = $CreateSeparateWowVdm
                     $instance.CreateSharedWowVdm = $CreateSharedWowVdm
                     $instance.ExecutablePath = $ExecutablePath
-                    $instance.FillAttributes = $FillAttributes
                     $instance.ForceOffFeedback = $ForceOffFeedback
                     $instance.ForceOnFeedback = $ForceOnFeedback
                     $instance.KillTimeout = $KillTimeout
@@ -201,6 +214,8 @@
                     $instance.YCoordinate = $YCoordinate
                     $instance.YNumCharacters = $YNumCharacters
                     $instance.YSize = $YSize
+
+                    $instance.Put()
                 }
                 elseif($PSCmdlet.ParameterSetName -eq "LogFile")
                 {
