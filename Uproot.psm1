@@ -10,6 +10,7 @@ CommandLine CommandLineTemplate or ExecutablePath
 
 if($PSVersionTable.PSVersion.Major -lt 3)
 {
+    Write-Warning "To utilize Uproot fully, uprgrade PowerShell to the latest version."
     # Read in all ps1 files in the Cmdlets Directory
     $Global:UprootPath = $PSScriptRoot
     Get-ChildItem $PSScriptRoot |
