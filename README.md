@@ -53,4 +53,8 @@ Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmj0y](h
     Add-WmiEventConsumer -ConsumerFile AS_ExtrinsicHTTPPOST
     Add-WmiEventSubscription -FilterName ProcessStartTrace -ConsumerName AS_ExtrinsicHTTPPOST
     
+    ### Note: Edit Filename in LF_Generic file
+    Add-WmiEventFilter -FilterFile ProcessCreation
+    Add-WmiEventConsumer -ConsumerFile LF_Generic
+    Add-WmiEventSubscription -FilterName ProcessCreation -ConsumerName LF_Generic
     
