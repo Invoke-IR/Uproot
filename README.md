@@ -42,4 +42,15 @@ Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmjoy](h
     UserCreation                      -       
 
 ### Consumers
-    AS_GenericHTTP	              -   
+    AS_ExtrinsicHTTPPOST	              -   
+    AS_IntrinsicHTTPPOST
+    LF_Generic
+    
+## Examples
+    Add-WmiEventFilter -FilterFile ProcessCreation
+    Add-WmiEventConsumer -ConsumerFile LF_Generic
+    Add-WmiEventSubscription -FilterName ProcessCreation -ConsumerName LF_Generic
+    
+    Add-WmiEventFilter -FilterFile ProcessStartTrace
+    Add-WmiEventConsumer -ConsumerFile AS_ExtrinsicHTTPPOST
+    Add-WmiEventSubscription -FilterName ProcessStartTrace -ConsumerName AS_ExtrinsicHTTPPOST
