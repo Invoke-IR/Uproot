@@ -43,13 +43,3 @@ Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmjoy](h
 
 ### Consumers
     AS_GenericHTTP	              -   
-    
-
-## Examples
-    Add-WmiEventFilter -FilterFile ProcessCreation
-    Add-WmiEventConsumer -ConsumerFile LF_Generic
-    Add-WmiEventSubscription -FilterName ProcessCreation -ConsumerName LF_Generic
-    
-    Add-WmiEventFilter -FilterFile ProcessStartTrace
-    Add-WmiEventConsumer -ConsumerFile AS_ExtrinsicHTTPPOST
-    Add-WmiEventSubscription -FilterName ProcessStartTrace -ConsumerName AS_ExtrinsicHTTPPOST
