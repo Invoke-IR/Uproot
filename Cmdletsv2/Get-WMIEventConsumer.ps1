@@ -4,7 +4,7 @@
     Param(
         [Parameter(Mandatory = $False, ValueFromPipeline = $True)]
             [string[]]$ComputerName = 'localhost',
-        [Parameter(Mandatory = $True, ParameterSetName = 'Name')]
+        [Parameter(Mandatory = $True, ParameterSetName = 'Name', Position = 0)]
             [string]$Name
     )
 

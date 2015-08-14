@@ -4,7 +4,7 @@
     Param(
         [Parameter(Mandatory = $False, ValueFromPipeline = $True)]
             [string[]]$ComputerName = 'localhost',
-        [Parameter(Mandatory = $False, ParameterSetName = 'Name')]
+        [Parameter(Mandatory = $False, ParameterSetName = 'Name', Position = 0)]
             [string]$Name
     )
 
@@ -25,12 +25,12 @@
             {
                 # Derive Filter Name
                 $FilterName = $obj.Filter.Split('"')[1]
-                $FilterPath = $obj.__PATH.Split(':')[0] + ":" + $obj.Filter
+                $FilterPath = $obj.Filter
 
                 # Derive Consumer Name
                 $ConsumerName = $obj.Consumer.Split('"')[1]
-                $ConusumerType = $obj.Consumer.Split(".")[0]
-                $ConsumerPath = $obj.__PATH.Split(':')[0] + ":" + $obj.Consumer
+                $ConsumerType = $obj.Consumer.Split(":")[1].Split(".")[0]
+                $ConsumerPath = $obj.Consumer
 
                 $props = @{
                     'ComputerName' = $obj.__SERVER;
