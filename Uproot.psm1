@@ -20,6 +20,7 @@ if($PSVersionTable.PSVersion.Major -lt 3)
 }
 else
 {
+    Add-Type -AssemblyName System.Serviceprocess
     # Read in all ps1 files in the Cmdlets Directory
     $Global:UprootPath = $PSScriptRoot
     Get-ChildItem $PSScriptRoot |
