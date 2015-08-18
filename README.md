@@ -17,6 +17,9 @@ Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmj0y](h
     Add-WmiEventSubscription
     Get-WmiEventSubscription
     Remove-WmiEventSubscription
+
+### Signature Sets - Prebuilt sets of filters, consumers, and subscriptions
+    Install-Sig
     
 ## Classes
     Uproot.Filter
@@ -47,6 +50,9 @@ Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmj0y](h
     AS_ExtrinsicHTTPPOST - Generic ActiveScriptEventConsumer for Extrinsic Events (Win32_ProcessStartTrace)
     AS_IntrinsicHTTPPOST - Generic ActiveScriptEventConsumer for Intrinsic Events (Win32_ProcessCreation)
     
+### Prebuilt Sigs
+    Basic = an example signature file
+    
 ## Examples
     ### Note: Edit IP Address in AS_ExtrinsicHTTPPOST file
     Add-WmiEventFilter -FilterFile ProcessStartTrace
@@ -57,4 +63,7 @@ Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmj0y](h
     Add-WmiEventFilter -FilterFile ProcessCreation
     Add-WmiEventConsumer -ConsumerFile LF_Generic
     Add-WmiEventSubscription -FilterName ProcessCreation -ConsumerName LF_Generic
+    
+    ### Note: Edit ComputerName and SigFile as appropriate
+    Install-Sig -ComputerName . -SigFile Basic
     
