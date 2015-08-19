@@ -8,16 +8,16 @@
 )
 
 $consumers = @(
-    "AS_IntrinsicHTTPPost",
-    "AS_ExtrinsicHTTPPost"
+    "AS_IntrinsicHTTP",
+    "AS_ExtrinsicHTTP"
 )
 
 $subscriptions =@{
-    "UserCreation" = "AS_IntrinsicHTTPPost";
-    "LoggedOnUserCreation"="AS_IntrinsicHTTPPost";
-    "ProcessCreation"="AS_IntrinsicHTTPPost";
-    "ProcessStartTrace"="AS_ExtrinsicHTTPPost";
-    "ServerConnectionCreation"="AS_IntrinsicHTTPPost";
-    "ServiceCreation"="AS_IntrinsicHTTPPost";
+    "UserCreation" = "AS_IntrinsicHTTP";
+    "LoggedOnUserCreation"="AS_IntrinsicHTTP";
+    "ProcessCreation"="AS_IntrinsicHTTP";
+    "ProcessStartTrace"="AS_ExtrinsicHTTP";
+    "ServerConnectionCreation"="AS_IntrinsicHTTP";
+    "ServiceCreation"="AS_IntrinsicHTTP";
 }
 
