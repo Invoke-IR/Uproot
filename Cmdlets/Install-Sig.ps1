@@ -88,7 +88,7 @@
 
                 foreach ($s in $subscriptions.GetEnumerator())
                 {
-                  Add-WmiEventSubscription -ComputerName $computer -FilterName $_.Name -ConsumerName $_.Value
+                  Add-WmiEventSubscription -ComputerName $computer -FilterName $s.Name -ConsumerName $s.Value
                 }
             }
 

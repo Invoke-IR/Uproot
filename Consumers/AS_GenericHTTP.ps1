@@ -1,4 +1,6 @@
-﻿$ListeningPostIP = Read-Host "Please enter the IP of your Listening Post"
+﻿if($ListeningPostIP -eq $Null){
+    $ListeningPostIP = Read-Host "Please enter the IP of your Listening Post"
+}
 
 $script = @"
 Set objSysInfo = CreateObject("WinNTSystemInfo")
