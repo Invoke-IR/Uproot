@@ -43,18 +43,52 @@
     {
         foreach($computer in $ComputerName)
         {
-            if($PSBoundParameters.ContainsKey("SigFile")){
+            if($PSBoundParameters.ContainsKey("SigFile"))
+            {
                 Get-Content "$($UprootPath)\Sigs\$($SigFile).ps1" | Out-String | Invoke-Expression
-                foreach($f in $filters){
-                    Add-WmiEventFilter -ComputerName $computer -FilterFile $f 
+
+                [System.Collections.ArrayList]$filters = @()
+                [System.Collections.ArrayList]$consumers = @()
+
+                foreach ($s in $subscriptions.GetEnumerator())
+                {
+                  $filters.add($s.Name) | out-null
+                  $consumers.add($s.Value) | out-null
                 }
 
-                foreach($c in $consumers){
+                #Parse Filters
+                $uniqfilters = $filters | select -Unique
+                if($uniqfilters.Count -gt 1)
+                { 
+                    $filters = $uniqfilters
+                }
+                else
+                {
+                    $filters = @($uniqfilters)
+                }
+
+                #Parse Consumers 
+                $uniqconsumers = $consumers | select -Unique
+                if($uniqconsumers.Count -gt 1)
+                { 
+                    $consumers = $uniqconsumers 
+                }
+                else
+                {
+                    $consumers = @($uniqconsumers)
+                }
+
+                #Add all objects
+                foreach($f in $filters){
+                    Add-WmiEventFilter -ComputerName $computer -FilterFile $f
+                }
+                foreach ($c in $consumers){
                     Add-WmiEventConsumer -ComputerName $computer -ConsumerFile $c
                 }
 
-                $subscriptions.GetEnumerator() | foreach-object{
-                    Add-WmiEventSubscription -ComputerName $computer -FilterName $_.Name -ConsumerName $_.Value
+                foreach ($s in $subscriptions.GetEnumerator())
+                {
+                  Add-WmiEventSubscription -ComputerName $computer -FilterName $_.Name -ConsumerName $_.Value
                 }
             }
 
