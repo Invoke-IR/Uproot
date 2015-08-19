@@ -1,8 +1,10 @@
-﻿$script = @"
+﻿$ListeningPostIP = Read-Host "Please enter the IP of your Listening Post"
+
+$script = @"
 Set objSysInfo = CreateObject("WinNTSystemInfo")
 Set objHTTP = CreateObject("Microsoft.XMLHTTP")
 
-objHTTP.open "POST", "http://127.0.0.1/", False
+objHTTP.open "POST", "http://$($ListeningPostIP)/", False
 objHTTP.setRequestHeader "User-Agent", "UprootIDS"
 
 
