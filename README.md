@@ -11,43 +11,43 @@ Note: Uproot was designed for >= PowerShell v3 compatibility. The module can be 
 ## Cmdlets
 ### Event Filter (__EventFilter):
 ```
-Add-WmiEventFilter
-Get-WmiEventFilter 
-Remove-WmiEventFilter  
+Add-WmiEventFilter - Adds a WMI Event Filter to a local or remote computer.
+Get-WmiEventFilter - Gets the WMI Event Filters that are "installed" on the local or a remote computer.
+Remove-WmiEventFilter - Removes a WMI Event Filter to a local or remote computer.
 ```
 
 ### Event Consumers (__EventConsumer):
 ```
-Add-WmiEventConsumer
-Get-WmiEventConsumer
-Remove-WmiEventConsumer
+Add-WmiEventConsumer - Adds a WMI Event Consumer to a local or remote computer.
+Get-WmiEventConsumer - Gets the WMI Event Consumers that are "installed" on the local computer or a remote computer.
+Remove-WmiEventConsumer - Removes a WMI Event Consumer to a local or remote computer.
 ```
 
 ### Event Subscription (__FilterToConsumerBinding):
 ```
-Add-WmiEventSubscription
-Get-WmiEventSubscription
-Remove-WmiEventSubscription
+Add-WmiEventSubscription - Adds a WMI Event Subscription to a local or remote computer.
+Get-WmiEventSubscription - Gets the WMI Event Subscriptions that are "installed" on the local computer or a remote computer.
+Remove-WmiEventSubscription - Removes a WMI Event Subscriptions to a local or remote computer.
 ```
 
 ### Signature Sets - Prebuilt sets of filters, consumers, and subscriptions
 ```
-Install-Sig
+Install-Sig - 
 ```
 
 ### Uproot Listening Post
-The Uproot project includes a service executable that can be used as a Listening Post (a point in the network to aggregate and forward on events).  The Listening Post receives HTTP POST requests, coverts the recieved data to Syslog, and forwards the data to any specified location (ex. Splunk).
+The Uproot project includes a service executable that can be used as a Listening Post (LP) (a point in the network that aggregates and forwards on events). The Listening Post receives HTTP POST requests, coverts the recieved data to Syslog, and forwards the data to any specified location (ex. Splunk).
 
 You can have multiple Listening Posts throughout your network to allow for load distribution, or to work with firewall restrictions.
 
 Below is a list of Cmdlets to install/configure an Uproot Listening Post:
 ```
-Get-UprootLP
-New-UprootLP
-Remove-UprootLP
-Restart-UprootLP
-Start-UprootLP
-Stop-UprootLP
+Get-UprootLP - 
+New-UprootLP -
+Remove-UprootLP -
+Restart-UprootLP -
+Start-UprootLP -
+Stop-UprootLP -
 ```
 
 ## Signatures
@@ -63,21 +63,27 @@ ServerConnectionCreation
 ServiceCreation
 ShadowCopyCreation
 ShareCreation
+StartupCommandCreation
 UserCreation
 UserProfileCreation
 ```
 
-### Consumers
+### ActiveScriptEventConsumers
 ```
-** Generic JSON formatters (format objects as JSON and POSTs to web server defined within consumer code) **
 AS_GenericHTTP - Generic ActiveScriptEventConsumer for All Events (this is the recommended consumer)
 AS_ExtrinsicHTTP - Generic ActiveScriptEventConsumer for Extrinsic Events (Win32_ProcessStartTrace)
 AS_IntrinsicHTTP - Generic ActiveScriptEventConsumer for Intrinsic Events (Win32_ProcessCreation)
 ```
 
+### LogFileEventConsumers
+```
+LF_ProcessCreation_CSV_PSv2
+LF_ProcessCreation_txt
+```
+
 ### Prebuilt Sigs
 ```
-Basic = an example signature file
+Basic - An example signature file
 ```
 
 ## Examples
@@ -92,13 +98,14 @@ Set-ExecutionPolicy Unrestricted
 Import-Module Uproot
 ```
 
-### Install Signatures
+### Install Subscription
 ```
 Add-WmiEventFilter -FilterFile ProcessStartTrace
 Add-WmiEventConsumer -ConsumerFile AS_ExtrinsicHTTPPOST
 Add-WmiEventSubscription -FilterName ProcessStartTrace -ConsumerName AS_GenericHTTP
 ```
 
+### Install Signature File
 ```
 Install-Sig -ComputerName (Get-Content .\hostlist.txt) -SigFile Basic
 ```
@@ -126,7 +133,6 @@ Remove-UprootLP
 
 ### Remove Remote Listening Post
 ```
-** Remove Remote Listening Post **
 Get-UprootLP -ComputerName LPHost
 Stop-UprootLP -ComputerName LPHost
 Remove-UprootLP -ComputerName LPHost
