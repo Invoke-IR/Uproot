@@ -2,6 +2,25 @@
 
 Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmj0y](https://twitter.com/harmj0y), [@sixdub](https://twitter.com/sixdub)
 
+## Overview
+
+Note: Uproot was designed to be used on a PowerShell v3 or greater controller.  The module can be used with PowerShell v2, but will be missing a great deal of functionality.
+
+## Install Module
+```
+Browse to download.uproot.invoke-ir.com
+Decompress downloaded zip file
+Rename folder to Uproot
+Move folder PowerShell Module directory (Get-ChildItem Env:\PSModulePath | Select-Object -ExpandProperty Value)
+Run PowerShell as Admin
+Import-Module Uproot
+```
+
+## Remove Module
+```
+
+```
+
 ## Cmdlets
 ### Event Filter (__EventFilter):
     Add-WmiEventFilter
@@ -20,6 +39,14 @@ Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmj0y](h
 
 ### Signature Sets - Prebuilt sets of filters, consumers, and subscriptions
     Install-Sig
+    
+### Uproot Listening Post
+    Get-UprootLP
+    New-UprootLP
+    Remove-UprootLP
+    Restart-UprootLP
+    Start-UprootLP
+    Stop-UprootLP
     
 ## Classes
     Uproot.Filter
