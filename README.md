@@ -44,12 +44,12 @@ You can have multiple Listening Posts throughout your network to allow for load 
 
 Below is a list of Cmdlets to install/configure an Uproot Listening Post:
 ```
-Get-UprootLP - 
-New-UprootLP -
-Remove-UprootLP -
-Restart-UprootLP -
-Start-UprootLP -
-Stop-UprootLP -
+Get-UprootLP - Lists Uproot Listening Posts on a local or remote computer.
+New-UprootLP - Creates a new Uproot Listening Post on a local or remote computer.
+Remove-UprootLP - Removes the Uproot Listening Post from a local or remote computer.
+Restart-UprootLP - Restarts the Uproot Listening Post on a local or remote computer with new configs.
+Start-UprootLP - Starts the Uproot Listening Post on a local or remote computer.
+Stop-UprootLP - Stops the Uproot Listening Post on a local or remote computer.
 ```
 
 ## Signatures
@@ -89,7 +89,7 @@ Basic - An example signature file
 ```
 
 ## Examples
-### Install Module
+### Install Module (PSv3)
 ```
 Browse to download.uproot.invoke-ir.com
 Decompress downloaded zip file
