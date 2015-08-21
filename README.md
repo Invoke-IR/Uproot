@@ -4,9 +4,9 @@ Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmj0y](h
 ## Overview
 Uproot is a Host Based Intrusion Detection System (HIDS) that leverages Permanent Windows Management Instrumentation (WMI) Event Susbcriptions to detect malicious activity on a network.
 
-WMI has been consistently included in Microsoft Windows since Windows NT 4.0 and Windows 95
+Microsoft has consistently included WMI in Microsoft Windows since Windows NT 4.0 and Windows 95.  Because of this, Uproot can be used with Windows OS endpoints from Windows NT 4.0 forward.
 
-Note: Uproot was designed for >= PowerShell v3 compatibility. The module can be used with PowerShell v2, but will be missing a great deal of functionality. 
+Note: Uproot was designed for a controller with >= PowerShell v3 compatibility. The module can be used with PowerShell v2, but will be missing a great deal of functionality. 
 
 ## Cmdlets
 ### Event Filter (__EventFilter):
@@ -32,7 +32,7 @@ Remove-WmiEventSubscription - Removes a WMI Event Subscriptions to a local or re
 
 ### Signature Sets - Prebuilt sets of filters, consumers, and subscriptions
 ```
-Install-Sig - 
+Install-Sig - Adds prebuilt signatures (sets of filters and consumers) to any specified computer.
 ```
 
 ### Uproot Listening Post
@@ -95,6 +95,8 @@ Rename folder to Uproot
 Move folder PowerShell Module directory (Get-ChildItem Env:\PSModulePath | Select-Object -ExpandProperty Value)
 Run PowerShell as Admin
 Set-ExecutionPolicy Unrestricted
+Unblock-File \path\to\module\Uproot\*
+Unblock-File \path\to\module\Uproot\en-US\*
 Import-Module Uproot
 ```
 
