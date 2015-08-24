@@ -53,21 +53,24 @@ Stop-UprootLP - Stops the Uproot Listening Post on a local or remote computer.
 ```
 
 ## Signatures
+(Write something about Intrinsic vs. Extrinsic)
+BOTTOM LINE: Whenever possible, use Extrinsic events instead of Intrinsic events. Intrinsic events require polling, which is more resource intensive (although I haven't come across any major issues yet) than Extrinsic events.
+
 ### Filters
 ```
-DriverCreation
-LoggedOnUserCreation
-NetworkConnectionCreation
-ProcessCreation
-ProcessStartTrace
-ScheduledJobCreation
-ServerConnectionCreation
-ServiceCreation
-ShadowCopyCreation
-ShareCreation
-StartupCommandCreation
-UserCreation
-UserProfileCreation
+DriverCreation - Intrinsic Event monitoring for the creation/registration of System Drivers
+LoggedOnUserCreation - 
+NetworkConnectionCreation - 
+ProcessCreation - Intrinsic Event monitoring for process creation
+ProcessStartTrace - Extrinsic Event monitoring for process creation 
+ScheduledJobCreation - Intrinsic Event monitoring for the creation/registration of "AT" jobs
+ServerConnectionCreation - 
+ServiceCreation - 
+ShadowCopyCreation - Intrinsic Event monitoring for the creation of a Volume Shadow Copy
+ShareCreation - Intrinsic Event monitoring for the creation of a File Share
+StartupCommandCreation - 
+UserCreation - Intrinsic Event monitoring for the creation of a local user
+UserProfileCreation - 
 ```
 
 ### ActiveScriptEventConsumers
