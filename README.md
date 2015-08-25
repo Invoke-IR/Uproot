@@ -51,6 +51,7 @@ Restart-UprootLP - Restarts the Uproot Listening Post on a local or remote compu
 Start-UprootLP - Starts the Uproot Listening Post on a local or remote computer.
 Stop-UprootLP - Stops the Uproot Listening Post on a local or remote computer.
 ```
+NOTE: To avoid creating a privilege escalation vulnerability, we recommend that you move uprootd.exe to C:\Windows\system32\ before using New-UprootLP
 
 ## Signatures
 (Write something about Intrinsic vs. Extrinsic)
