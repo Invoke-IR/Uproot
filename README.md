@@ -93,7 +93,7 @@ Basic - An example signature file
 
 ## Examples
 ### Install Module (PSv3)
-```
+```powershell
 Browse to download.uproot.invoke-ir.com
 Decompress downloaded zip file
 Rename folder to Uproot
@@ -106,40 +106,40 @@ Import-Module Uproot
 ```
 
 ### Install Subscription
-```
+```powershell
 Add-WmiEventFilter -FilterFile ProcessStartTrace
 Add-WmiEventConsumer -ConsumerFile AS_ExtrinsicHTTPPOST
 Add-WmiEventSubscription -FilterName ProcessStartTrace -ConsumerName AS_GenericHTTP
 ```
 
 ### Install Signature File
-```
+```powershell
 Install-Sig -ComputerName (Get-Content .\hostlist.txt) -SigFile Basic
 ```
 
 ### Install Local Listening Post
-```
+```powershell
 Copy-Item $PSModulePath\Uproot\bin\uprootd.exe C:\windows\System32\uprootd.exe
 New-UprootLP -BinaryPathName C:\windows\System32\uprootd.exe
 Start-UprootLP -Server 192.168.1.100
 ```
 
 ### Install Remote Listening Post
-```
+```powershell
 Copy-Item $PSModulePath\Uproot\bin\uprootd.exe \\LPHost\C$\windows\System32\uprootd.exe
 New-UprootLP -ComputerName LPHost -BinaryPathName C:\windows\System32\uprootd.exe
 Start-UprootLP -ComputerName LPHost -Server 192.168.1.100
 ```
 
 ### Remove Local Listening Post
-```
+```powershell
 Get-UprootLP
 Stop-UprootLP
 Remove-UprootLP
 ```
 
 ### Remove Remote Listening Post
-```
+```powershell
 Get-UprootLP -ComputerName LPHost
 Stop-UprootLP -ComputerName LPHost
 Remove-UprootLP -ComputerName LPHost
