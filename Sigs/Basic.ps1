@@ -1,5 +1,3 @@
-$ListeningPostIP = Read-Host "Please enter the IP of your Listening Post"
-
 $subscriptions =@{
     "UserCreation" = "AS_GenericHTTP";
     "LoggedOnUserCreation"="AS_GenericHTTP";
