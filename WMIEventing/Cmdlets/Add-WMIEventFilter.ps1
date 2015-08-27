@@ -33,7 +33,7 @@
 
     PROCESS
     {
-       $jobs = Set-WmiInstance -ComputerName $ComputerName -Namespace root\subscription -Class __EventFilter -Arguments $props -AsJob -ThrottleLimit $ThrottleLimit 
+       $jobs = Set-WmiInstance -ComputerName $ComputerName -Namespace root\subscription -Class __EventFilter -Arguments $props -AsJob -ThrottleLimit $ThrottleLimit
     }
 
     END

@@ -10,11 +10,6 @@
             [string]$SigFile
     )
 
-    BEGIN
-    {
-
-    }
-
     PROCESS
     {
         . "$($UprootPath)\Sigs\$($SigFile).ps1"
@@ -64,7 +59,17 @@
 
         foreach ($s in $subscriptions.GetEnumerator())
         {
-            Add-WmiEventSubscription -ComputerName $ComputerName -FilterName $s.Name -ConsumerName $s.Value
+            switch($s.Value.Split('_')[0])
+            {
+                'AS'{$ConsumerType = 'ActiveScriptEventConsumer'; break}
+                'CL'{$ConsumerType = 'CommandLineEventConsumer'; break}
+                'LF'{$ConsumerType = 'LogFileEventConsumer'; break}
+                'EL'{$ConsumerType = 'NtEventLogEventConsumer'; break}
+                'SMTP'{$ConsumerType = 'SMTPEventConsumer'; break}
+                'Default'{Write-Error "Invalid prefix on consumer name for $($s.Value)."; break}
+            }
+
+            Add-WmiEventSubscription -ComputerName $ComputerName -FilterName $s.Name -ConsumerName $s.Value -ConsumerType $ConsumerType
         }
     }
 }

@@ -12,6 +12,10 @@
             [string]$FilterName,
         
         [Parameter(Mandatory = $True)]
+        [ValidateSet('ActiveScriptEventConsumer', 'CommandLineEventConsumer', 'LogFileEventConsumer', 'NtEventLogEventConsumer', 'SMTPEventConsumer')]
+            [string]$ConsumerType,
+
+        [Parameter(Mandatory = $True)]
             [string]$ConsumerName
     )
 
@@ -19,7 +23,7 @@
     {
         $props = @{
             'Filter' = "\\.\ROOT\subscription:__EventFilter.Name=`"$($FilterName)`"";
-            'Consumer' = "\\.\ROOT\subscription:__EventConsume.Name=`"$($ConsumerName)`"";
+            'Consumer' = "\\.\ROOT\subscription:$($ConsumerType).Name=`"$($ConsumerName)`"";
         }
     }
 
