@@ -40,8 +40,8 @@ Describe 'Get-UprootLP' {
     }
 }
 
-## Start Service
-Describe 'Start-UprootLP' {
+<## Start Service
+#Describe 'Start-UprootLP' {
     Context 'service exists, but is not running' { 
         It 'should start the uprootd service' {
             Start-UprootLP -Server 127.0.0.1
@@ -85,7 +85,7 @@ Describe 'Stop-UprootLP' {
             (Get-UprootLP).Status | Should Be 'Stopped'
         }
     }
-}
+}#>
 
 ## Remove Service
 Describe 'Remove-UprootLP' {
