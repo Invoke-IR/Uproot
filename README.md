@@ -70,8 +70,23 @@ LF_ProcessCreation_txt
 Basic - An example signature file
 ```
 
-## Examples
-### Install Module (PSv3)
+## [Module Installation](https://msdn.microsoft.com/en-us/library/dd878350(v=vs.85).aspx)
+Jakub Jareš wrote an [excellent introduction](http://www.powershellmagazine.com/2014/03/12/get-started-with-pester-powershell-unit-testing-framework/) to module installation, so I decided to adapt his example for Uproot. 
+
+To begin open an internet browser and navigate to the main Uproot github [page](https://github.com/Invoke-IR/Uproot). Once on this page you will need to download and extract the module into your modules directory.
+
+![alt text](http://4.bp.blogspot.com/--awwh6xvH_A/Vd_C3tQpitI/AAAAAAAAA3Y/lCPGXa8mk08/s640/Screenshot%2B2015-08-27%2B21.52.40.png)
+
+If you used Internet Explorer to download the archive, you need to unblock the archive before extraction, otherwise PowerShell will complain when you import the module. If you are using PowerShell 3.0 or newer you can use the Unblock-File cmdlet to do that:
+```powershell
+Unblock-File -Path "$env:UserProfile\Downloads\Uproot-master.zip"
+```
+
+If you are using an older version of PowerShell you will have to unblock the file manually. Go to your Downloads folder and right-click Uproot-master.zip and select "Properties". On the general tab click Unblock and then click OK to close the dialog.
+
+![alt text](http://2.bp.blogspot.com/-4QzeiRBwHfI/Vd_C3l1dIXI/AAAAAAAAA3U/rvverb1qbpM/s640/Screenshot%2B2015-08-27%2B21.57.21.png)
+
+Open your Modules directory and create a new folder called Uproot. You can use this script to open the correct folder effortlessly:
 ```powershell
 function Get-UserModulePath {
  
@@ -81,24 +96,27 @@ function Get-UserModulePath {
     {
         New-Item -Path $Path -ItemType Container | Out-Null
     }
-        $Path
+    
+    $Path
 }
  
 Invoke-Item (Get-UserModulePath)
 ```
 
+Extract the archive to the WMIEventing folder. When you are done you should have all these files in your Uproot directory:
+
+![alt text](http://4.bp.blogspot.com/-NfSl2E5G7CM/Vd_Ei6Q_r6I/AAAAAAAAA3o/Ats2BlDSzmk/s640/Screenshot%2B2015-08-27%2B22.16.28.png)
+
+Start a new PowerShell session and import the Uproot module using the commands below:
 ```powershell
-Browse to download.uproot.invoke-ir.com
-Decompress downloaded zip file
-Rename folder to Uproot
-Move folder PowerShell Module directory (Get-ChildItem Env:\PSModulePath | Select-Object -ExpandProperty Value)
-Run PowerShell as Admin
-Set-ExecutionPolicy Unrestricted
-Unblock-File \path\to\module\Uproot\*
-Unblock-File \path\to\module\Uproot\en-US\*
+Get-Module -ListAvailable -Name Uproot
 Import-Module Uproot
+Get-Command -Module Uproot
 ```
 
+You are now ready to use the Uproot PowerShell module!
+
+## Examples
 ### Install Signature File
 ```powershell
 Install-UprootSignature -ComputerName (Get-Content .\hostlist.txt) -SigFile Basic
