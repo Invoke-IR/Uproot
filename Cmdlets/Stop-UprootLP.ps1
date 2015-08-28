@@ -17,7 +17,7 @@
 
             if($sc.Status -eq $null)
             {
-               Write-Error "Uprootd service does not exist on $($computer). Use the New-UprootLP cmdlet to create the service."
+               Write-Error "Uprootd service does not exist on $($computer). Use the New-UprootLP cmdlet to create the service." -ErrorAction Stop
             }
             else
             {
@@ -27,7 +27,7 @@
                 if($sc.Status -eq "Running")
                 {
                     $sc.Stop()
-                    Start-Sleep -Milliseconds 25
+                    Start-Sleep -Milliseconds 50
                     $sc.Refresh()
 
                     if($sc.Status -eq "Stopped")
@@ -36,7 +36,7 @@
                     }  
                     else
                     {
-                        Write-Error "Failed to stop the uprootd service on $($computer)"
+                        Write-Error "Failed to stop the uprootd service on $($computer)" -ErrorAction Stop
                     }
                 }
             }
