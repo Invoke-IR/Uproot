@@ -45,6 +45,7 @@ Describe 'Start-UprootLP' {
     Context 'service exists, but is not running' { 
         It 'should start the uprootd service' {
             Start-UprootLP -Server 127.0.0.1
+            sleep -Milliseconds 50
             (Get-UprootLP).Status | Should Be 'Running'
         }
     }
@@ -63,6 +64,7 @@ Describe 'Stop-UprootLP' {
     Context 'service exists and is running' {
         It 'should reload the uprootd service with a new config' {
             { Restart-UprootLP -Server 127.0.0.1 } | Should Not Throw
+            sleep -Milliseconds 50
             (Get-UprootLP).Status | Should Be 'Running'
         } 
     }
