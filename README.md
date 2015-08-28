@@ -16,7 +16,7 @@ Install-UprootSignature - Adds prebuilt signatures (sets of filters and consumer
 ```
 
 ### Uproot Listening Post
-The Uproot project includes a service executable that can be used as a Listening Post (LP) (a point in the network that aggregates and forwards on events). The Listening Post receives HTTP POST requests, coverts the recieved data to Syslog, and forwards the data to any specified location (ex. Splunk).
+The Uproot project includes a service executable that can be used as a Listening Post (LP) (a point in the network that aggregates and forwards on events). The Listening Post receives HTTP POST requests, converts the recieved data to Syslog, and forwards the data to any specified location (ex. Splunk).
 
 You can have multiple Listening Posts throughout your network to allow for load distribution, or to work with firewall restrictions.
 
