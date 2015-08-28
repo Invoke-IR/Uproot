@@ -103,7 +103,7 @@ function Get-UserModulePath {
 Invoke-Item (Get-UserModulePath)
 ```
 
-Extract the archive to the WMIEventing folder. When you are done you should have all these files in your Uproot directory:
+Extract the archive to the Uproot folder. When you are done you should have all these files in your Uproot directory:
 
 ![alt text](http://4.bp.blogspot.com/-NfSl2E5G7CM/Vd_Ei6Q_r6I/AAAAAAAAA3o/Ats2BlDSzmk/s640/Screenshot%2B2015-08-27%2B22.16.28.png)
 
