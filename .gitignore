@@ -15,6 +15,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+*README.md
 
 # External tool builders
 .externalToolBuilders/
