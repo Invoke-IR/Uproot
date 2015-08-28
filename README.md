@@ -1,4 +1,4 @@
-#Uproot
+#Uproot [![Build status](https://ci.appveyor.com/api/projects/status/46t5ew218wnaalod?svg=true)](https://ci.appveyor.com/project/Invoke-IR/uproot)
 Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@harmj0y](https://twitter.com/harmj0y), [@sixdub](https://twitter.com/sixdub)
 
 ## Overview
