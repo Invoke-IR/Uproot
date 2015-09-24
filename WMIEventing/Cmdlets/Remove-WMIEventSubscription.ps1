@@ -1,47 +1,37 @@
 ﻿function Remove-WmiEventSubscription
 {
-    [CmdletBinding(DefaultParameterSetName = 'Default')]
+    [CmdletBinding()]
     Param(
         [Parameter()]
             [string[]]$ComputerName = 'localhost',
 
         [Parameter()]
             [Int32]$ThrottleLimit = 32,
-
-        #[Parameter()]
-        #    [switch]$Force,
-        
-        [Parameter(Mandatory = $True, ParameterSetName = 'Name', Position = 0)]
-            [string]$Name,
-        
-        [Parameter(Mandatory = $True, ParameterSetName = "InputObject", ValueFromPipeline = $True)]
-            $InputObject
+        [Alias('FilterName')]
+        [Parameter(Mandatory, Position = 0, ValueFromPipelineByPropertyName)]
+            [string]$Name
     )
 
-    PROCESS
+    begin
     {
-        if($PSCmdlet.ParameterSetName -eq "InputObject")
-        {
-            foreach($obj in $InputObject)
-            {
-                ([WMI]$obj.Path).Delete()
-            }
+        $args = @{
+            'Namespace' = 'root\subscription'
+            'Class' = '__FilterToConsumerBinding'
+            'ThrottleLimit' = $ThrottleLimit
+            'AsJob' = $True
         }
-        else
-        {
-            $jobs = Get-WmiObject -ComputerName $ComputerName -Namespace root\subscription -Class __FilterToConsumerBinding -AsJob -ThrottleLimit $ThrottleLimit
+    }
+    process
+    {
+        $jobs = Get-WmiObject -ComputerName $ComputerName @args 
             
-            $objects = Receive-Job -Job $jobs -Wait -AutoRemoveJob
+        $objects = Receive-Job -Job $jobs -Wait -AutoRemoveJob
 
-            if($PSCmdlet.ParameterSetName -eq 'Name')
-            {
-                $objects = $objects | Where-Object {$_.Filter.Split('"')[1].Split('"')[0] -eq $Name}
-            }
+        $objects = $objects | Where-Object {$_.Filter.Split('"')[1].Split('"')[0] -eq $Name}
             
-            foreach($obj in $objects)
-            {
-                $obj | Remove-WmiObject
-            }
+        foreach($obj in $objects)
+        {
+            $obj | Remove-WmiObject
         }
     }
 }

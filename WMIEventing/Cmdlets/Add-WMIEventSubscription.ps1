@@ -2,37 +2,45 @@
 {
     [CmdletBinding()]
     Param(
-        [Parameter(ValueFromPipeline = $True)]
-            [string[]]$ComputerName = 'localhost',
+        [Parameter()]
+        [string[]]$ComputerName = 'localhost',
 
         [Parameter()]
-            [Int32]$ThrottleLimit = 32,
+        [Int32]$ThrottleLimit = 32,
 
-        [Parameter(Mandatory = $True)]
-            [string]$FilterName,
+        [Parameter(Mandatory)]
+        [string]$FilterName,
         
-        [Parameter(Mandatory = $True)]
+        [Parameter(Mandatory)]
         [ValidateSet('ActiveScriptEventConsumer', 'CommandLineEventConsumer', 'LogFileEventConsumer', 'NtEventLogEventConsumer', 'SMTPEventConsumer')]
-            [string]$ConsumerType,
+        [string]$ConsumerType,
 
-        [Parameter(Mandatory = $True)]
-            [string]$ConsumerName
+        [Parameter(Mandatory)]
+        [string]$ConsumerName
     )
 
-    BEGIN
+    begin
     {
         $props = @{
-            'Filter' = "\\.\ROOT\subscription:__EventFilter.Name=`"$($FilterName)`"";
-            'Consumer' = "\\.\ROOT\subscription:$($ConsumerType).Name=`"$($ConsumerName)`"";
+            'Filter' = "\\.\ROOT\subscription:__EventFilter.Name=`"$($FilterName)`""
+            'Consumer' = "\\.\ROOT\subscription:$($ConsumerType).Name=`"$($ConsumerName)`""
+        }
+
+        $parameters = @{
+            'Namespace' = 'root\subscription'
+            'Class' = '__FilterToConsumerBinding'
+            'Arguments' = $props
+            'ThrottleLimit' = $ThrottleLimit
+            'AsJob' = $True
         }
     }
 
-    PROCESS
+    process
     {
-        $jobs = Set-WmiInstance -ComputerName $ComputerName -Namespace root\subscription -Class __FilterToConsumerBinding -Arguments $props -AsJob -ThrottleLimit $ThrottleLimit 
+        $jobs = Set-WmiInstance -ComputerName $ComputerName @parameters
     }
 
-    END
+    end
     {
         Receive-Job -Job $jobs -Wait -AutoRemoveJob
     }

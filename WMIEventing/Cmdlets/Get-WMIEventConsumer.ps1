@@ -2,19 +2,29 @@
 {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     Param(
-        [Parameter(ValueFromPipeline = $True)]
-            [string[]]$ComputerName = 'localhost',
+        [Parameter()]
+        [string[]]$ComputerName = 'localhost',
 
         [Parameter()]
-            [Int32]$ThrottleLimit = 32,
+        [Int32]$ThrottleLimit = 32,
 
-        [Parameter(Mandatory = $True, ParameterSetName = 'Name', Position = 0)]
-            [string]$Name
+        [Parameter(Mandatory, ParameterSetName = 'Name', Position = 0)]
+        [string]$Name
     )
 
-    PROCESS
+    begin
     {
-        $jobs = Get-WmiObject -ComputerName $ComputerName -Namespace root\subscription -Class __EventConsumer -AsJob -ThrottleLimit $ThrottleLimit 
+        $parameters = @{
+            'Namespace' = 'root\subscription'
+            'Class' = '__EventConsumer'
+            'ThrottleLimit' = $ThrottleLimit
+            'AsJob' = $True
+        }
+    }
+
+    process
+    {
+        $jobs = Get-WmiObject -ComputerName $ComputerName @parameters
         
         $objects = Receive-Job -Job $jobs -Wait -AutoRemoveJob
 
@@ -43,6 +53,7 @@
                     $obj = New-Object -TypeName PSObject -Property $props
                     $obj.PSObject.TypeNames.Insert(0, 'WMIEventing.ActiveScriptEventConsumer')
                 }
+                
                 CommandLineEventConsumer
                 {
                     $props = @{
@@ -75,6 +86,7 @@
                     $obj = New-Object -TypeName PSObject -Property $props
                     $obj.PSObject.TypeNames.Insert(0, 'WMIEventing.CommandLineEventConsumer')
                 }
+                
                 LogFileEventConsumer
                 {
                     $props = @{
@@ -90,6 +102,7 @@
                     $obj = New-Object -TypeName PSObject -Property $props
                     $obj.PSObject.TypeNames.Insert(0, 'WMIEventing.LogFileEventConsumer')
                 }
+                
                 NtEventLogEventConsumer
                 {
                     $props = @{
@@ -110,6 +123,7 @@
                     $obj = New-Object -TypeName PSObject -Property $props
                     $obj.PSObject.TypeNames.Insert(0, 'WMIEventing.NtEventLogEventConsumer')
                 }
+                
                 SMTPEventConsumer
                 {
                     $props = @{

@@ -2,19 +2,29 @@
 {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     Param(
-        [Parameter(ValueFromPipeline = $True)]
-            [string[]]$ComputerName = 'localhost',
+        [Parameter()]
+        [string[]]$ComputerName = 'localhost',
 
         [Parameter()]
-            [Int32]$ThrottleLimit = 32,
+        [Int32]$ThrottleLimit = 32,
 
-        [Parameter(Mandatory = $True, ParameterSetName = 'Name', Position = 0)]
-            [string]$Name
+        [Parameter(Mandatory, ParameterSetName = 'Name', Position = 0)]
+        [string]$Name
     )
 
-    PROCESS
+    begin
+    {
+        $parameters = @{
+            'Namespace' = 'root\subscription'
+            'Class' = '__FilterToConsumerBinding'
+            'ThrottleLimit' = $ThrottleLimit
+            'AsJob' = $True
+        }
+    }
+
+    process
     { 
-        $jobs = Get-WmiObject -ComputerName $ComputerName -Namespace root\subscription -Class __FilterToConsumerBinding -AsJob -ThrottleLimit $ThrottleLimit
+        $jobs = Get-WmiObject -ComputerName $ComputerName @parameters
 
         $objects = Receive-Job -Job $jobs -Wait -AutoRemoveJob
 

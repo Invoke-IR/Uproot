@@ -2,26 +2,42 @@
 {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     Param(
-        [Parameter(ValueFromPipeline = $True)]
-            [string[]]$ComputerName = 'localhost',
+        [Parameter()]
+        [string[]]$ComputerName = 'localhost',
 
         [Parameter()]
-            [Int32]$ThrottleLimit = 32,
+        [Int32]$ThrottleLimit = 32,
         
-        [Parameter(Mandatory = $True, ParameterSetName = "Name", Position = 0)]
-            [string]$Name
+        [Parameter(Mandatory, ParameterSetName = "Name", Position = 0)]
+        [string]$Name
     )
 
-    PROCESS
+    begin
     {
         if($PSCmdlet.ParameterSetName -eq 'Name')
         {
-            $jobs = Get-WmiObject -ComputerName $ComputerName -Namespace root\subscription -Class __EventFilter -Filter "Name=`'$($Name)`'" -AsJob -ThrottleLimit $ThrottleLimit 
+            $parameters = @{
+                'Namespace' = 'root\subscription'
+                'Class' = '__EventFilter'
+                'ThrottleLimit' = $ThrottleLimit
+                'Filter' = "Name=`'$($Name)`'"
+                'AsJob' = $True
+            }
         }
         else
         {
-            $jobs = Get-WmiObject -ComputerName $ComputerName -Namespace root\subscription -Class __EventFilter -AsJob -ThrottleLimit $ThrottleLimit 
+            $parameters = @{
+                'Namespace' = 'root\subscription'
+                'Class' = '__EventFilter'
+                'ThrottleLimit' = $ThrottleLimit
+                'AsJob' = $True
+            }
         }
+    }
+
+    process
+    {
+        $jobs = Get-WmiObject -ComputerName $ComputerName @parameters
 
         $objects = Receive-Job -Job $jobs -Wait -AutoRemoveJob
         

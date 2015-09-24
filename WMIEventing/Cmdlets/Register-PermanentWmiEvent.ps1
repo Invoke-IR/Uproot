@@ -1,30 +1,47 @@
-﻿function Add-WmiEventConsumer
+﻿function Register-PermanentWmiEvent
 {
     [CmdletBinding()]
     Param(
         #region CommonParameters
         
-        [Parameter()] 
+        [Parameter()]
         [string[]]$ComputerName = 'localhost',
+
+        [Parameter(Mandatory)]
+        [string]$Name,
 
         [Parameter()]
         [Int32]$ThrottleLimit = 32,
         
-        [Parameter(Mandatory)] 
-        [string]$Name,
+        #endregion CommonParameters
 
+        #region FilterParameters
+        
+        [Parameter()]
+        [string]$EventNamespace = 'root\cimv2',
+        
+        [Parameter(Mandatory)]
+        [string]$Query,
+        
+        [Parameter()]
+        [string]$QueryLanguage = 'WQL',
+
+        #endregion FilterParameters
+
+        #region CommonConsumerParameters
+        
         [Parameter(ParameterSetName = 'ActiveScriptFileComputerSet')]
         [Parameter(ParameterSetName = 'ActiveScriptTextComputerSet')]
         [Parameter(ParameterSetName = 'CommandLineComputerSet')]
         [UInt32]$KillTimeout = 0,
         
-        #endregion CommonParameters
+        #endregion CommonConsumerParameters
 
         #region ActiveScriptParameters
 
         [Parameter(ParameterSetName = 'ActiveScriptFileComputerSet')]
         [Parameter(ParameterSetName = 'ActiveScriptTextComputerSet')] 
-        [ValidateSet("VBScript", "jscript")]
+        [ValidateSet("VBScript")]
         [string]$ScriptingEngine = "VBScript",
 
         [Parameter(Mandatory, ParameterSetName = 'ActiveScriptFileComputerSet')] 
@@ -202,158 +219,37 @@
 
     begin
     {
-        if($PSCmdlet.ParameterSetName.Contains('ActiveScript'))
-        {
-            $class = 'ActiveScriptEventConsumer'
-            
-            if($PSCmdlet.ParameterSetName.Contains('File'))
-            {
-                $props = @{
-                    'Name' = $Name
-                    'KillTimeout' = $KillTimeout
-                    'ScriptingEngine' = $ScriptingEngine
-                    'ScriptFileName' = $ScriptFileName
-                    'ScriptText' = $null
-                }
-            }
-            elseif($PSCmdlet.ParameterSetName.Contains('Text'))
-            {
-                $props = @{
-                    'Name' = $Name
-                    'KillTimeout' = $KillTimeout
-                    'ScriptingEngine' = $ScriptingEngine
-                    'ScriptFileName' = $null
-                    'ScriptText' = $ScriptText
-                }
-            }
-            else
-            {
-                Write-Error 'No valid Parameter Set chosen'
-            }
-        }
-        elseif($PSCmdlet.ParameterSetName.Contains('CommandLine'))
-        {
-            $class = 'CommandLineEventConsumer'
+        $FilterParamKeys = $PSBoundParameters.Keys | Where-Object { $_ -in (Get-Command Add-WmiEventFilter | ForEach-Object Parameters | ForEach-Object Keys) }
+        $FilterProps = @{}
+        $FilterParamKeys | ForEach-Object { $FilterProps[$_] = $PSBoundParameters[$_] }
+        
+        $ConsumerParamKeys = $PSBoundParameters.Keys | Where-Object { $_ -in (Get-Command Add-WmiEventConsumer | ForEach-Object Parameters | ForEach-Object Keys) }
+        $ConsumerProps = @{}
+        $ConsumerParamKeys | ForEach-Object { $ConsumerProps[$_] = $PSBoundParameters[$_] }
 
-            if($PSCmdlet.ParameterSetName.Contains('Template'))
-            {
-                $props = @{
-                    'Name' = $Name
-                    'CommandLineTemplate' = $CommandLineTemplate
-                    'CreateNewProcessGroup' = $CreateNewProcessGroup
-                    'CreateSeparateWowVdm' = $CreateSeparateWowVdm
-                    'CreateSharedWowVdm' = $CreateSharedWowVdm
-                    'ExecutablePath' = $Null
-                    'ForceOffFeedback' = $ForceOffFeedback
-                    'ForceOnFeedback' = $ForceOnFeedback
-                    'KillTimeout' = $KillTimeout
-                    'Priority' = $Priority
-                    'RunInteractively' = $RunInteractively
-                    'ShowWindowCommand' = $ShowWindowCommand
-                    'UseDefaultErrorMode' = $UseDefaultErrorMode
-                    'WindowTitle' = $WindowTitle
-                    'WorkingDirectory' = $WorkingDirectory
-                    'XCoordinate' = $XCoordinate
-                    'XNumCharacters' = $XNumCharacters
-                    'XSize' = $XSize
-                    'YCoordinate' = $YCoordinate
-                    'YNumCharacters' = $YNumCharacters
-                    'YSize' = $YSize
-                }
-            }
-            else
-            {
-                $props = @{
-                    'Name' = $Name
-                    'CommandLineTemplate' = $Null
-                    'CreateNewProcessGroup' = $CreateNewProcessGroup
-                    'CreateSeparateWowVdm' = $CreateSeparateWowVdm
-                    'CreateSharedWowVdm' = $CreateSharedWowVdm
-                    'ExecutablePath' = $ExecutablePath
-                    'ForceOffFeedback' = $ForceOffFeedback
-                    'ForceOnFeedback' = $ForceOnFeedback
-                    'KillTimeout' = $KillTimeout
-                    'Priority' = $Priority
-                    'RunInteractively' = $RunInteractively
-                    'ShowWindowCommand' = $ShowWindowCommand
-                    'UseDefaultErrorMode' = $UseDefaultErrorMode
-                    'WindowTitle' = $WindowTitle
-                    'WorkingDirectory' = $WorkingDirectory
-                    'XCoordinate' = $XCoordinate
-                    'XNumCharacters' = $XNumCharacters
-                    'XSize' = $XSize
-                    'YCoordinate' = $YCoordinate
-                    'YNumCharacters' = $YNumCharacters
-                    'YSize' = $YSize
-                }
-            }
-        }
-        elseif($PSCmdlet.ParameterSetName.Contains('LogFile'))
+        switch($PSCmdlet.ParameterSetName)
         {
-            $class = 'LogFileEventConsumer'
-
-            $props = @{
-                'Name' = $Name
-                'Filename' = $Filename
-                'IsUnicode' = $IsUnicode
-                'MaximumFileSize' = $MaximumFileSize
-                'Text' = $Text
-            }
-        }
-        elseif($PSCmdlet.ParameterSetName.Contains('NtEventLog'))
-        {
-            $class = 'NtEventLogEventConsumer'
-
-            $props = @{
-                'Name' = $Name
-                'Category' = $Category
-                'EventID' = $EventID
-                'EventType' = $EventType
-                'InsertionStringTemplates' = $InsertionStringTemplates
-                'NumberOfInsertionStrings' = $InsertionStringTemplates.Length
-                'NameOfUserSidProperty' = $NameOfUserSidProperty
-                'NameOfRawDataProperty' = $NameOfRawDataProperty
-                'SourceName' = $SourceName
-                'UNCServerName' = $UNCServerName
-            }
-        }
-        elseif($PSCmdlet.ParameterSetName.Contains('SMTP'))
-        {
-            $class = 'SMTPEventConsumer'
-
-            $props = @{
-                'Name' = $Name
-                'BccLine' = $BccLine
-                'CcLine' = $CcLine
-                'FromLine' = $FromLine
-                'HeaderFields' = $HeaderFields
-                'Message' = $Message
-                'ReplyToLine' = $ReplyToLine
-                'SMTPServer' = $SMTPServer
-                'Subject' = $Subject
-                'ToLine' = $ToLine
-            }
-        }
-        else
-        {
-            Write-Error 'No valid Parameter Set chosen'
+            'ActiveScriptFileComputerSet' {$ConsumerName = 'ActiveScriptEventConsumer'; break}
+            'ActiveScriptTextComputerSet' {$ConsumerName = 'ActiveScriptEventConsumer'; break}
+            'CommandLineComputerSet' {$ConsumerName = 'CommandLineEventConsumer'; break}
+            'CommandLineTemplateComputerSet' {$ConsumerName = 'CommandLineEventConsumer'; break}
+            'LogFileComputerSet' {$ConsumerName = 'LogFileEventConsumer'; break}
+            'NtEventLogComputerSet' {$ConsumerName = 'NtEventLogEventConsumer'; break}
+            'SMTPComputerSet' {$ConsumerName = 'SMTPEventConsumer'; break}
         }
 
-        $args = @{
-            'Namespace' = 'root\subscription'
-            'Class' = $class
-            'Arguments' = $props
+        $SubscriptionParameters = @{
+            'FilterName' = $Name
+            'ConsumerType' = $ConsumerName
+            'ConsumerName' = $Name
             'ThrottleLimit' = $ThrottleLimit
         }
     }
 
     process
     {
-        $jobs = Set-WmiInstance -ComputerName $ComputerName @args -AsJob
-    }
-    
-    end
-    {
-        Receive-Job -Job $jobs -Wait -AutoRemoveJob
+        Add-WmiEventFilter -ComputerName $ComputerName @FilterProps -ThrottleLimit $ThrottleLimit
+        Add-WmiEventConsumer -ComputerName $ComputerName @ConsumerProps -ThrottleLimit $ThrottleLimit
+        Add-WmiEventSubscription -ComputerName $ComputerName @SubscriptionParameters
     }
 }
