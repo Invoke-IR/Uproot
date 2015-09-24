@@ -1,5 +1,7 @@
 ﻿Import-Module -Force $PSScriptRoot\..\WMIEventing.psd1
 
+Get-WmiEventSubscription | Remove-WmiEventSubscription
+
 $script = @"
 Set objSysInfo = CreateObject("WinNTSystemInfo")
 Set objHTTP = CreateObject("Microsoft.XMLHTTP")
@@ -55,8 +57,6 @@ objHTTP.send outputString
 
 Set objHTTP = Nothing
 "@
-
-Remove-WmiEventSubscription
 
 Add-WmiEventFilter -Name filter0 -Query 'SELECT * FROM Win32_ProcessStartTrace'
 Add-WmiEventFilter -Name filter1 -Query 'SELECT * FROM Win32_ProcessStartTrace'

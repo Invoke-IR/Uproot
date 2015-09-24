@@ -1,6 +1,6 @@
 ﻿Import-Module -Force $PSScriptRoot\..\WMIEventing.psd1
 
-Remove-WmiEventFilter
+Get-WmiEventFilter | Remove-WmiEventFilter
 
 Describe 'Get-WmiEventFilter' {
 

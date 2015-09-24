@@ -1,5 +1,7 @@
 ﻿Import-Module -Force $PSScriptRoot\..\WMIEventing.psd1
 
+Get-WmiEventConsumer | Remove-WmiEventConsumer
+
 $script = @"
 Set objSysInfo = CreateObject("WinNTSystemInfo")
 Set objHTTP = CreateObject("Microsoft.XMLHTTP")
@@ -55,8 +57,6 @@ objHTTP.send outputString
 
 Set objHTTP = Nothing
 "@
-
-Remove-WmiEventConsumer
 
 Describe 'Get-WmiEventConsumer' {
 
