@@ -9,7 +9,7 @@
   </a>
 </p>
 
-Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@mattifestation](https://twitter.com/mattifestation),  [@harmj0y](https://twitter.com/harmj0y), [@sixdub](https://twitter.com/sixdub)
+<h4 align="center">Developed by <a href="https://twitter.com/jaredcatkinson">@jaredcatkinson</a>, <a href="https://twitter.com/mattifestation">@mattifestation</a>, <a href="https://twitter.com/harmj0y">@harmj0y</a>, <a href="https://twitter.com/sixdub">@sixdub</a></h4>
 
 ## Overview
 Uproot is a Host Based Intrusion Detection System (HIDS) that leverages Permanent Windows Management Instrumentation (WMI) Event Susbcriptions to detect malicious activity on a network. For more details on WMI Event Subscriptions please see the [WMIEventing Module](https://www.github.com/Invoke-IR/WMIEventing)
