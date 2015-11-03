@@ -1,6 +1,13 @@
-#Uproot 
-[![Build status](https://ci.appveyor.com/api/projects/status/46t5ew218wnaalod?svg=true)](https://ci.appveyor.com/project/Invoke-IR/uproot) 
-[![Stories in Ready](https://badge.waffle.io/Invoke-IR/Uproot.svg?label=ready&title=Ready)](http://waffle.io/Invoke-IR/Uproot)
+<h1 align="center">Uproot</h1>
+
+<p align="center">
+  <a href="https://ci.appveyor.com/project/Invoke-IR/uproot">
+    <img src="https://ci.appveyor.com/api/projects/status/46t5ew218wnaalod?svg=true">
+  </a>
+  <a href="http://waffle.io/Invoke-IR/Uproot">
+    <img src="https://badge.waffle.io/Invoke-IR/Uproot.svg?label=ready&title=Ready">
+  </a>
+</p>
 
 Developed by [@jaredcatkinson](https://twitter.com/jaredcatkinson), [@mattifestation](https://twitter.com/mattifestation),  [@harmj0y](https://twitter.com/harmj0y), [@sixdub](https://twitter.com/sixdub)
 
