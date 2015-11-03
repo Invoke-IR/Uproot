@@ -1,4 +1,5 @@
 <h1 align="center">Uproot</h1>
+<h5 align="center">Developed by <a href="https://twitter.com/jaredcatkinson">@jaredcatkinson</a>, <a href="https://twitter.com/mattifestation">@mattifestation</a>, <a href="https://twitter.com/harmj0y">@harmj0y</a>, <a href="https://twitter.com/sixdub">@sixdub</a></h5>
 
 <p align="center">
   <a href="https://ci.appveyor.com/project/Invoke-IR/uproot">
@@ -8,8 +9,6 @@
     <img src="https://badge.waffle.io/Invoke-IR/Uproot.svg?label=ready&title=Ready">
   </a>
 </p>
-
-<h4 align="center">Developed by <a href="https://twitter.com/jaredcatkinson">@jaredcatkinson</a>, <a href="https://twitter.com/mattifestation">@mattifestation</a>, <a href="https://twitter.com/harmj0y">@harmj0y</a>, <a href="https://twitter.com/sixdub">@sixdub</a></h4>
 
 ## Overview
 Uproot is a Host Based Intrusion Detection System (HIDS) that leverages Permanent Windows Management Instrumentation (WMI) Event Susbcriptions to detect malicious activity on a network. For more details on WMI Event Subscriptions please see the [WMIEventing Module](https://www.github.com/Invoke-IR/WMIEventing)
