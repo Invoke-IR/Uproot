@@ -1,5 +1,6 @@
 ﻿install:
   - cinst pester
+  - git submodule update --init --recursive
 
 build: false
 
