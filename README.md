@@ -3,7 +3,7 @@
 
 <p align="center">
   <a href="https://ci.appveyor.com/project/Invoke-IR/uproot">
-    <img src="https://ci.appveyor.com/api/projects/status/46t5ew218wnaalod?svg=true">
+    <img src="https://ci.appveyor.com/api/projects/status/46t5ew218wnaalod?svg=true" width="150">
   </a>
 </p>
 
