@@ -1,0 +1,3 @@
+[submodule "WmiEvent"]
+	path = WmiEvent
+	url = https://github.com/Invoke-IR/WmiEvent.git
