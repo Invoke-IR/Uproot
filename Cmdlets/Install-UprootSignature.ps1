@@ -1,13 +1,28 @@
-﻿function Install-UprootSignature
-{
-    [CmdletBinding()]
+﻿function Install-UprootSignature {
+[CmdletBinding(DefaultParameterSetName = 'ByComputerName')]
     Param
     (
+        [Parameter(ParameterSetName = 'ByComputerName')]
+        [ValidateNotNullOrEmpty()]
+        [string[]]
+        $ComputerName = 'localhost',
+
+        [Parameter(ParameterSetName = 'ByComputerName')]
+        [Management.Automation.PSCredential]
+        [Management.Automation.CredentialAttribute()]
+        $Credential = [Management.Automation.PSCredential]::Empty,
+
+        [Parameter(Mandatory, ParameterSetName = 'ByCimSession')]
+        [Microsoft.Management.Infrastructure.CimSession[]]
+        $CimSession,
+
         [Parameter()]
-            [string[]]$ComputerName = 'localhost'
+        [Int32]
+        $ThrottleLimit = 32
     )
 
-    DynamicParam {
+    DynamicParam 
+    {
         # Set the dynamic parameters' name
         $ParameterName = 'SigFile'
             
@@ -25,7 +40,8 @@
         $AttributeCollection.Add($ParameterAttribute)
 
         # Generate and set the ValidateSet 
-        $arrSet = (Get-ChildItem -Path "$($UprootPath)\Sigs").BaseName
+        #$arrSet = (Get-ChildItem -Path "$($UprootPath)\Sigs").BaseName
+        $arrSet = (Get-ChildItem -Path 'C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Signatures').BaseName
         $ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
 
         # Add the ValidateSet to the attributes collection
@@ -37,26 +53,41 @@
         return $RuntimeParameterDictionary
     }
 
-    BEGIN
+    begin
     {
         $SigFile = $PSBoundParameters['SigFile']
+
+        if($PSBoundParameters.ContainsKey('ComputerName'))
+        {
+            if($PSBoundParameters.ContainsKey('Credential'))
+            {
+                #Here we have to get CimSessions
+                $CimSession = New-CimSessionDcom -ComputerName $ComputerName -Credential $Credential
+            }
+            else
+            {
+                #Here we have to get CimSessions
+                $CimSession = New-CimSessionDcom -ComputerName $ComputerName
+            }
+        }
     }
 
-    PROCESS
+    process
     {
-        . "$($UprootPath)\Sigs\$($SigFile).ps1"
+        #Get-Content "$($UprootPath)\Sigs\$($SigFile).ps1" | Out-String | Invoke-Expression
+        Get-Content "C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Sigs\$($SigFile).ps1" | Out-String | Invoke-Expression
 
         [System.Collections.ArrayList]$filters = @()
         [System.Collections.ArrayList]$consumers = @()
 
         foreach ($s in $subscriptions.GetEnumerator())
         {
-            $filters.add($s.Name) | out-null
-            $consumers.add($s.Value) | out-null
+            $filters.add($s.Name) | Out-Null
+            $consumers.add($s.Value) | Out-Null
         }
 
         #Parse Filters
-        $uniqfilters = $filters | select -Unique
+        $uniqfilters = $filters | Select-Object -Unique
         if($uniqfilters.Count -gt 1)
         { 
             $filters = $uniqfilters
@@ -67,7 +98,7 @@
         }
 
         #Parse Consumers 
-        $uniqconsumers = $consumers | select -Unique
+        $uniqconsumers = $consumers | Select-Object -Unique
         if($uniqconsumers.Count -gt 1)
         { 
             $consumers = $uniqconsumers 
@@ -77,31 +108,41 @@
             $consumers = @($uniqconsumers)
         }
 
-        #Add all objects
-        foreach($f in $filters)
+        if($ComputerName -eq 'localhost')
         {
-            . "$($UprootPath)\Filters\$($f).ps1"
-            Add-WmiEventFilter -ComputerName $ComputerName @props
-        }
-        foreach ($c in $consumers)
-        {
-            . "$($UprootPath)\Consumers\$($c).ps1"
-            Add-WmiEventConsumer -ComputerName $ComputerName @props
-        }
-
-        foreach ($s in $subscriptions.GetEnumerator())
-        {
-            switch($s.Value.Split('_')[0])
+           #Add all objects
+            foreach($f in $filters)
             {
-                'AS'{$ConsumerType = 'ActiveScriptEventConsumer'; break}
-                'CL'{$ConsumerType = 'CommandLineEventConsumer'; break}
-                'LF'{$ConsumerType = 'LogFileEventConsumer'; break}
-                'EL'{$ConsumerType = 'NtEventLogEventConsumer'; break}
-                'SMTP'{$ConsumerType = 'SMTPEventConsumer'; break}
-                'Default'{Write-Error "Invalid prefix on consumer name for $($s.Value)."; break}
+                . "C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Filters\$($f).ps1"
+                New-WmiEventFilter @props
             }
-
-            Add-WmiEventSubscription -ComputerName $ComputerName -FilterName $s.Name -ConsumerName $s.Value -ConsumerType $ConsumerType
+            foreach ($c in $consumers)
+            {
+                . "C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Consumers\$($c).ps1"
+                New-WmiEventConsumer @props
+            }
+            foreach ($s in $subscriptions.GetEnumerator())
+            {
+                New-WmiEventSubscription -ConsumerType ActiveScriptEventConsumer -FilterName $s.Name -ConsumerName $s.Value
+            } 
+        }
+        else
+        {   
+            #Add all objects
+            foreach($f in $filters)
+            {
+                . "C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Filters\$($f).ps1"
+                New-WmiEventFilter @props -CimSession $CimSession -ThrottleLimit $ThrottleLimit
+            }
+            foreach ($c in $consumers)
+            {
+                . "C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Consumers\$($c).ps1"
+                New-WmiEventConsumer @props -CimSession $CimSession -ThrottleLimit $ThrottleLimit
+            }
+            foreach ($s in $subscriptions.GetEnumerator())
+            {
+                New-WmiEventSubscription -CimSession $CimSession -ConsumerType ActiveScriptEventConsumer -FilterName $s.Name -ConsumerName $s.Value
+            }
         }
     }
 }
