@@ -40,8 +40,8 @@
         $AttributeCollection.Add($ParameterAttribute)
 
         # Generate and set the ValidateSet 
-        #$arrSet = (Get-ChildItem -Path "$($UprootPath)\Sigs").BaseName
-        $arrSet = (Get-ChildItem -Path 'C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Signatures').BaseName
+        $arrSet = (Get-ChildItem -Path "$($UprootPath)\Signatures").BaseName
+        #$arrSet = (Get-ChildItem -Path 'C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Signatures').BaseName
         $ValidateSetAttribute = New-Object System.Management.Automation.ValidateSetAttribute($arrSet)
 
         # Add the ValidateSet to the attributes collection
@@ -74,8 +74,8 @@
 
     process
     {
-        #Get-Content "$($UprootPath)\Sigs\$($SigFile).ps1" | Out-String | Invoke-Expression
-        Get-Content "C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Sigs\$($SigFile).ps1" | Out-String | Invoke-Expression
+        Get-Content "$($UprootPath)\Signatures\$($SigFile).ps1" | Out-String | Invoke-Expression
+        #Get-Content "C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Signatures\$($SigFile).ps1" | Out-String | Invoke-Expression
 
         [System.Collections.ArrayList]$filters = @()
         [System.Collections.ArrayList]$consumers = @()
@@ -113,12 +113,12 @@
            #Add all objects
             foreach($f in $filters)
             {
-                . "C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Filters\$($f).ps1"
+                . "$($UprootPath)\Filters\$($f).ps1"
                 New-WmiEventFilter @props
             }
             foreach ($c in $consumers)
             {
-                . "C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Consumers\$($c).ps1"
+                . "$($UprootPath)\Consumers\$($c).ps1"
                 New-WmiEventConsumer @props
             }
             foreach ($s in $subscriptions.GetEnumerator())
@@ -131,12 +131,12 @@
             #Add all objects
             foreach($f in $filters)
             {
-                . "C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Filters\$($f).ps1"
+                . "$($UprootPath)\Filters\$($f).ps1"
                 New-WmiEventFilter @props -CimSession $CimSession -ThrottleLimit $ThrottleLimit
             }
             foreach ($c in $consumers)
             {
-                . "C:\Users\tester\Documents\WindowsPowerShell\Modules\Uproot\Consumers\$($c).ps1"
+                . "$($UprootPath)\Consumers\$($c).ps1"
                 New-WmiEventConsumer @props -CimSession $CimSession -ThrottleLimit $ThrottleLimit
             }
             foreach ($s in $subscriptions.GetEnumerator())
