@@ -43,7 +43,7 @@ Else
     outputString = outputString & """TargetInstance"":{"
 
     For Each oProp in TargetEvent.Properties_
-         If oProp.Name <> "Sid" Then
+         If (oProp.Name <> "Sid") And (oProp.Name <> "InputParameter") Then
             outputString = outputString & """" & oProp.Name & """:" & """" & oProp & ""","
         End If
     Next
@@ -61,4 +61,5 @@ Set objHTTP = Nothing
 $props = @{
     'Name' = 'AS_GenericHTTP';
     'ScriptText' = $script;
+    'ScriptingEngine' = 'VBScript';
 }
