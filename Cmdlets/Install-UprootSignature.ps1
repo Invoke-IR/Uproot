@@ -1,18 +1,8 @@
 ﻿function Install-UprootSignature {
-[CmdletBinding(DefaultParameterSetName = 'ByComputerName')]
+[CmdletBinding()]
     Param
     (
-        [Parameter(ParameterSetName = 'ByComputerName')]
-        [ValidateNotNullOrEmpty()]
-        [string[]]
-        $ComputerName = 'localhost',
-
-        [Parameter(ParameterSetName = 'ByComputerName')]
-        [Management.Automation.PSCredential]
-        [Management.Automation.CredentialAttribute()]
-        $Credential = [Management.Automation.PSCredential]::Empty,
-
-        [Parameter(Mandatory, ParameterSetName = 'ByCimSession')]
+        [Parameter()]
         [Microsoft.Management.Infrastructure.CimSession[]]
         $CimSession,
 
@@ -56,20 +46,6 @@
     begin
     {
         $SigFile = $PSBoundParameters['SigFile']
-
-        if($PSBoundParameters.ContainsKey('ComputerName'))
-        {
-            if($PSBoundParameters.ContainsKey('Credential'))
-            {
-                #Here we have to get CimSessions
-                $CimSession = New-CimSessionDcom -ComputerName $ComputerName -Credential $Credential
-            }
-            else
-            {
-                #Here we have to get CimSessions
-                $CimSession = New-CimSessionDcom -ComputerName $ComputerName
-            }
-        }
     }
 
     process
@@ -108,26 +84,8 @@
             $consumers = @($uniqconsumers)
         }
 
-        if($ComputerName -eq 'localhost')
+        if($PSBoundParameters['CimSession'])
         {
-           #Add all objects
-            foreach($f in $filters)
-            {
-                . "$($UprootPath)\Filters\$($f).ps1"
-                New-WmiEventFilter @props
-            }
-            foreach ($c in $consumers)
-            {
-                . "$($UprootPath)\Consumers\$($c).ps1"
-                New-WmiEventConsumer @props
-            }
-            foreach ($s in $subscriptions.GetEnumerator())
-            {
-                New-WmiEventSubscription -ConsumerType ActiveScriptEventConsumer -FilterName $s.Name -ConsumerName $s.Value
-            } 
-        }
-        else
-        {   
             #Add all objects
             foreach($f in $filters)
             {
@@ -143,6 +101,24 @@
             {
                 New-WmiEventSubscription -CimSession $CimSession -ConsumerType ActiveScriptEventConsumer -FilterName $s.Name -ConsumerName $s.Value
             }
+        }
+        else
+        {
+            #Add all objects
+            foreach($f in $filters)
+            {
+                . "$($UprootPath)\Filters\$($f).ps1"
+                New-WmiEventFilter @props -ComputerName 'localhost'
+            }
+            foreach ($c in $consumers)
+            {
+                . "$($UprootPath)\Consumers\$($c).ps1"
+                New-WmiEventConsumer @props -ComputerName 'localhost'
+            }
+            foreach ($s in $subscriptions.GetEnumerator())
+            {
+                New-WmiEventSubscription -ConsumerType ActiveScriptEventConsumer -FilterName $s.Name -ConsumerName $s.Value -ComputerName 'localhost'
+            } 
         }
     }
 }
