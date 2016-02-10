@@ -6,7 +6,7 @@ $script = @"
 Set objSysInfo = CreateObject("WinNTSystemInfo")
 Set objHTTP = CreateObject("Microsoft.XMLHTTP")
 
-objHTTP.open "POST", "http://$($ListeningPostIP)/", False
+objHTTP.open "POST", "http://$($ListeningPostIP):8000/", False
 objHTTP.setRequestHeader "User-Agent", "UprootIDS"
 
 
@@ -43,7 +43,7 @@ Else
     outputString = outputString & """TargetInstance"":{"
 
     For Each oProp in TargetEvent.Properties_
-         If (oProp.Name <> "Sid") And (oProp.Name <> "InputParameter") Then
+         If (oProp.Name <> "Sid") And (oProp.Name <> "InputParameters") Then
             outputString = outputString & """" & oProp.Name & """:" & """" & oProp & ""","
         End If
     Next
@@ -59,7 +59,7 @@ Set objHTTP = Nothing
 "@
 
 $props = @{
-    'Name' = 'AS_GenericHTTP';
-    'ScriptText' = $script;
-    'ScriptingEngine' = 'VBScript';
+    Name = 'AS_GenericHTTP';
+    ScriptText = $script;
+    ScriptingEngine = 'VBScript'
 }
