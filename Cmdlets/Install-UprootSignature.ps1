@@ -46,6 +46,8 @@
     begin
     {
         $SigFile = $PSBoundParameters['SigFile']
+
+        Write-Verbose "Deplying signature to $($CimSession.count) machines"    
     }
 
     process
@@ -87,37 +89,37 @@
         if($PSBoundParameters['CimSession'])
         {
             #Add all objects
-            foreach($f in $filters)
-            {
-                . "$($UprootPath)\Filters\$($f).ps1"
-                New-WmiEventFilter @props -CimSession $CimSession -ThrottleLimit $ThrottleLimit
-            }
             foreach ($c in $consumers)
             {
                 . "$($UprootPath)\Consumers\$($c).ps1"
-                New-WmiEventConsumer @props -CimSession $CimSession -ThrottleLimit $ThrottleLimit
+                $Null = New-WmiEventConsumer @props -CimSession $CimSession -ThrottleLimit $ThrottleLimit -ErrorAction SilentlyContinue
+            }
+            foreach($f in $filters)
+            {
+                . "$($UprootPath)\Filters\$($f).ps1"
+                $Null = New-WmiEventFilter @props -CimSession $CimSession -ThrottleLimit $ThrottleLimit -ErrorAction SilentlyContinue
             }
             foreach ($s in $subscriptions.GetEnumerator())
             {
-                New-WmiEventSubscription -CimSession $CimSession -ConsumerType ActiveScriptEventConsumer -FilterName $s.Name -ConsumerName $s.Value
+                # $Null = New-WmiEventSubscription -CimSession $CimSession -ConsumerType ActiveScriptEventConsumer -FilterName $s.Name -ConsumerName $s.Value -ErrorAction SilentlyContinue
             }
         }
         else
         {
             #Add all objects
-            foreach($f in $filters)
-            {
-                . "$($UprootPath)\Filters\$($f).ps1"
-                New-WmiEventFilter @props -ComputerName 'localhost'
-            }
             foreach ($c in $consumers)
             {
                 . "$($UprootPath)\Consumers\$($c).ps1"
-                New-WmiEventConsumer @props -ComputerName 'localhost'
+                $Null = New-WmiEventConsumer @props -ComputerName 'localhost'
+            }
+            foreach($f in $filters)
+            {
+                . "$($UprootPath)\Filters\$($f).ps1"
+                $Null = New-WmiEventFilter @props -ComputerName 'localhost'
             }
             foreach ($s in $subscriptions.GetEnumerator())
             {
-                New-WmiEventSubscription -ConsumerType ActiveScriptEventConsumer -FilterName $s.Name -ConsumerName $s.Value -ComputerName 'localhost'
+                $Null = New-WmiEventSubscription -ConsumerType ActiveScriptEventConsumer -FilterName $s.Name -ConsumerName $s.Value -ComputerName 'localhost'
             } 
         }
     }

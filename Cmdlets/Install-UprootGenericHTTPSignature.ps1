@@ -25,7 +25,7 @@ function Install-UprootGenericHTTPSignature {
         [Int32]
         $ThrottleLimit = 32
     )
-
+    
     process
     {
         if($PSBoundParameters['CimSession'])
@@ -39,13 +39,13 @@ function Install-UprootGenericHTTPSignature {
                 CimSession = $CimSession;
                 ThrottleLimit = $ThrottleLimit;
             }
-            New-WmiEventFilter @FilterProps
+            $Null = New-WmiEventFilter @FilterProps
 
             # the consumer is always going to be static for this script
             . "$($UprootPath)\Consumers\AS_GenericHTTP.ps1"
-            New-WmiEventConsumer @props -CimSession $CimSession -ThrottleLimit $ThrottleLimit -ErrorAction SilentlyContinue
+            $Null = New-WmiEventConsumer @props -CimSession $CimSession -ThrottleLimit $ThrottleLimit -ErrorAction SilentlyContinue
             
-            New-WmiEventSubscription -CimSession $CimSession -ConsumerType ActiveScriptEventConsumer -FilterName $FilterName -ConsumerName 'AS_GenericHTTP' -ErrorVariable err
+            $Null = New-WmiEventSubscription -CimSession $CimSession -ConsumerType ActiveScriptEventConsumer -FilterName $FilterName -ConsumerName 'AS_GenericHTTP' -ErrorVariable err
             $err | ForEach-Object {
                 Write-Warning "Error in executing New-WmiEventSubscription : $_"
             }
@@ -53,6 +53,10 @@ function Install-UprootGenericHTTPSignature {
         else
         {
             # if there's no CimSession, we're deploying the signature to the local system
+
+            # the consumer is always going to be static for this script
+            . "$($UprootPath)\Consumers\AS_GenericHTTP.ps1"
+            $Null = New-WmiEventConsumer @props -ComputerName 'localhost' -ErrorAction SilentlyContinue
 
             # build the properties for our custom-specified filter and create the new filter
             $FilterProps = @{
@@ -63,13 +67,9 @@ function Install-UprootGenericHTTPSignature {
                 'ComputerName' = 'localhost';
                 'ThrottleLimit' = $ThrottleLimit;
             }
-            New-WmiEventFilter @FilterProps
+            $Null = New-WmiEventFilter @FilterProps
 
-            # the consumer is always going to be static for this script
-            . "$($UprootPath)\Consumers\AS_GenericHTTP.ps1"
-            New-WmiEventConsumer @props -ComputerName 'localhost' -ErrorAction SilentlyContinue
-            
-            New-WmiEventSubscription -ConsumerType ActiveScriptEventConsumer -FilterName $FilterName -ConsumerName 'AS_GenericHTTP' -ComputerName 'localhost' -ErrorVariable err
+            $Null = New-WmiEventSubscription -ConsumerType ActiveScriptEventConsumer -FilterName $FilterName -ConsumerName 'AS_GenericHTTP' -ComputerName 'localhost' -ErrorVariable err
             $err | ForEach-Object {
                 Write-Warning "Error in executing New-WmiEventSubscription : $_"
             }

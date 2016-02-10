@@ -31,6 +31,10 @@ function Install-UprootGenericSignature {
         $Consumer
     )
 
+    begin {
+        Write-Verbose "Deplying signature to $($CimSession.count) machines"
+    }
+    
     process
     {
         if($Consumer -eq 'HTTP')

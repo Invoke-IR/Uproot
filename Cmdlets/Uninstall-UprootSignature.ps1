@@ -32,7 +32,7 @@ function Uninstall-UprootSignature {
                 $Subscription = Get-WmiEventSubscription -CimSession $CimSession | Where-Object {
                     ($_.Filter.Name -like $FilterName) -and ($_.Consumer.Name -like $ConsumerName)
                 }
-                $Subscription | Remove-CimInstance
+                $Subscription | Remove-CimInstance -ErrorAction SilentlyContinue
 
                 if($RemoveFilterAndConsumer)
                 {
@@ -50,7 +50,7 @@ function Uninstall-UprootSignature {
             {
                 # if we're removing all subscriptions (and/or filters/consumers)
 
-                Get-WmiEventSubscription -CimSession $CimSession | Remove-CimInstance
+                Get-WmiEventSubscription -CimSession $CimSession | Remove-CimInstance -ErrorAction SilentlyContinue
 
                 if($RemoveFilterAndConsumer)
                 {
@@ -65,7 +65,7 @@ function Uninstall-UprootSignature {
                 $Subscription = Get-WmiEventSubscription -ComputerName 'localhost' | Where-Object {
                     ($_.Filter.Name -like $FilterName) -and ($_.Consumer.Name -like $ConsumerName)
                 }
-                $Subscription | Remove-CimInstance
+                $Subscription | Remove-CimInstance -ErrorAction SilentlyContinue
 
                 if($RemoveFilterAndConsumer)
                 {
@@ -83,7 +83,7 @@ function Uninstall-UprootSignature {
             {
                 # if we're removing all subscriptions (and/or filters/consumers)
 
-                Get-WmiEventSubscription -ComputerName 'localhost' | Remove-CimInstance
+                Get-WmiEventSubscription -ComputerName 'localhost' | Remove-CimInstance -ErrorAction SilentlyContinue
 
                 if($RemoveFilterAndConsumer)
                 {
