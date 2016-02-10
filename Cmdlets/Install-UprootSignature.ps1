@@ -101,7 +101,7 @@
             }
             foreach ($s in $subscriptions.GetEnumerator())
             {
-                # $Null = New-WmiEventSubscription -CimSession $CimSession -ConsumerType ActiveScriptEventConsumer -FilterName $s.Name -ConsumerName $s.Value -ErrorAction SilentlyContinue
+                $Null = New-WmiEventSubscription -CimSession $CimSession -ConsumerType ActiveScriptEventConsumer -FilterName $s.Name -ConsumerName $s.Value -ErrorAction SilentlyContinue
             }
         }
         else
