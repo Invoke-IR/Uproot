@@ -13,5 +13,4 @@ $subscriptions =@{
     'INT-ShadowCopyCreation' = 'AS_GenericHTTP';
     'INT-ShareCreation' = 'AS_GenericHTTP';
     'INT-StartupCommandCreation' = 'AS_GenericHTTP';
-    'INT-UserCreation' = 'AS_GenericHTTP';
 }

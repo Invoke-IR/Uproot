@@ -91,17 +91,24 @@
             #Add all objects
             foreach ($c in $consumers)
             {
+                Write-Verbose -Message "Installing Consumer: $($c)"
                 . "$($UprootPath)\Consumers\$($c).ps1"
                 $Null = New-WmiEventConsumer @props -CimSession $CimSession -ThrottleLimit $ThrottleLimit -ErrorAction SilentlyContinue
             }
             foreach($f in $filters)
             {
+                Write-Verbose -Message "Installing Filter: $($f)"
                 . "$($UprootPath)\Filters\$($f).ps1"
                 $Null = New-WmiEventFilter @props -CimSession $CimSession -ThrottleLimit $ThrottleLimit -ErrorAction SilentlyContinue
             }
             foreach ($s in $subscriptions.GetEnumerator())
             {
-                $Null = New-WmiEventSubscription -CimSession $CimSession -ConsumerType ActiveScriptEventConsumer -FilterName $s.Name -ConsumerName $s.Value -ErrorAction SilentlyContinue
+                Write-Verbose -Message "Installing Subscription for Filter: $($s.Name) & Consumer: $($s.Value)"
+                
+                $filter = Get-WmiEventFilter -CimSession $CimSession[0] -Name $s.Name
+                $consumer = Get-ActiveScriptEventConsumer -CimSession $CimSession[0] -Name $s.Value
+
+                $Null = New-WmiEventSubscription -CimSession $CimSession -Filter $filter -Consumer $consumer -ErrorAction SilentlyContinue
             }
         }
         else
